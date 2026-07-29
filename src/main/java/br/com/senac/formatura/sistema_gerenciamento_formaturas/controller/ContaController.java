@@ -19,7 +19,7 @@ public class ContaController {
             return ResponseEntity.status(401).build();
         }
 
-        String nome = usuario.getAluno() != null ? usuario.getAluno().getNome() : "Comissão";
+        String nome = usuario.getAluno() != null ? usuario.getAluno().getNome() : firstNonBlank(usuario.getNome(), "Usuario");
         Long alunoId = usuario.getAluno() != null ? usuario.getAluno().getId() : null;
 
         return ResponseEntity.ok(
@@ -32,5 +32,12 @@ public class ContaController {
                 alunoId
             )
         );
+    }
+
+    private String firstNonBlank(String... values) {
+        for (String value : values) {
+            if (value != null && !value.isBlank()) return value;
+        }
+        return "";
     }
 }

@@ -1,6 +1,6 @@
 package br.com.senac.formatura.sistema_gerenciamento_formaturas.model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,29 +13,25 @@ import lombok.Data;
 
 @Data
 @Entity
-public class Tarefa {
+public class HistoricoAuditoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "turma_id", nullable = false)
-    private Turma turma;
-
-    @ManyToOne
     @JoinColumn(name = "organizacao_id")
     private Organizacao organizacao;
 
-    @ManyToOne
-    @JoinColumn(name = "responsavel_id")
-    private Aluno responsavel;
+    private String entidade;
+    private String entidadeId;
+    private String acao;
 
-    private String titulo;
-    
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
+
+    private LocalDateTime dataHora = LocalDateTime.now();
+
     @Column(columnDefinition = "TEXT")
-    private String descricao;
-    
-    private String status = "a_fazer";
-    private LocalDate dataLimite;
-    private Boolean ativo = true;
+    private String resumo;
 }

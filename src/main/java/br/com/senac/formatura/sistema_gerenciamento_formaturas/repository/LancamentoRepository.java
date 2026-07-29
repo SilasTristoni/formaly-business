@@ -2,6 +2,7 @@ package br.com.senac.formatura.sistema_gerenciamento_formaturas.repository;
 
 import java.util.Collection;
 import java.util.List;
+import java.math.BigDecimal;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -19,7 +20,11 @@ public interface LancamentoRepository extends JpaRepository<LancamentoFinanceiro
         WHERE LOWER(l.tipo) = 'receita'
           AND (l.status IS NULL OR UPPER(l.status) NOT IN ('PENDENTE', 'CANCELADO', 'ESTORNADO'))
     """)
-    Double totalReceitas();
+    BigDecimal totalReceitasDecimal();
+
+    default Double totalReceitas() {
+        return totalReceitasDecimal().doubleValue();
+    }
 
     @Query("""
         SELECT COALESCE(SUM(l.valor), 0)
@@ -27,7 +32,11 @@ public interface LancamentoRepository extends JpaRepository<LancamentoFinanceiro
         WHERE LOWER(l.tipo) = 'despesa'
           AND (l.status IS NULL OR UPPER(l.status) NOT IN ('PENDENTE', 'CANCELADO', 'ESTORNADO'))
     """)
-    Double totalDespesas();
+    BigDecimal totalDespesasDecimal();
+
+    default Double totalDespesas() {
+        return totalDespesasDecimal().doubleValue();
+    }
 
     @Query("""
         SELECT COALESCE(SUM(l.valor), 0)
@@ -36,7 +45,11 @@ public interface LancamentoRepository extends JpaRepository<LancamentoFinanceiro
           AND LOWER(l.tipo) = 'receita'
           AND (l.status IS NULL OR UPPER(l.status) NOT IN ('PENDENTE', 'CANCELADO', 'ESTORNADO'))
     """)
-    Double totalReceitasByTurmaId(@Param("turmaId") Long turmaId);
+    BigDecimal totalReceitasByTurmaIdDecimal(@Param("turmaId") Long turmaId);
+
+    default Double totalReceitasByTurmaId(Long turmaId) {
+        return totalReceitasByTurmaIdDecimal(turmaId).doubleValue();
+    }
 
     @Query("""
         SELECT COALESCE(SUM(
@@ -50,7 +63,11 @@ public interface LancamentoRepository extends JpaRepository<LancamentoFinanceiro
         WHERE l.turma.id = :turmaId
           AND (l.status IS NULL OR UPPER(l.status) NOT IN ('PENDENTE', 'CANCELADO', 'ESTORNADO'))
     """)
-    Double saldoByTurmaId(@Param("turmaId") Long turmaId);
+    BigDecimal saldoByTurmaIdDecimal(@Param("turmaId") Long turmaId);
+
+    default Double saldoByTurmaId(Long turmaId) {
+        return saldoByTurmaIdDecimal(turmaId).doubleValue();
+    }
 
     List<LancamentoFinanceiro> findByContribuicaoTrueOrderByDataLancamentoDescIdDesc();
 

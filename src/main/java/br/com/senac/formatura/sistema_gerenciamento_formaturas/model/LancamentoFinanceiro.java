@@ -1,5 +1,6 @@
 package br.com.senac.formatura.sistema_gerenciamento_formaturas.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import jakarta.persistence.Column;
@@ -23,6 +24,10 @@ public class LancamentoFinanceiro {
     private Turma turma;
 
     @ManyToOne
+    @JoinColumn(name = "organizacao_id")
+    private Organizacao organizacao;
+
+    @ManyToOne
     @JoinColumn(name = "aluno_id")
     private Aluno aluno;
 
@@ -33,7 +38,10 @@ public class LancamentoFinanceiro {
     private String status = "CONFIRMADO";
     private Boolean contribuicao = false;
     private String apoiadorNome;
-    private Double valor;
+
+    @Column(precision = 14, scale = 2)
+    private BigDecimal valor = BigDecimal.ZERO;
+
     private LocalDate dataLancamento;
     private LocalDate dataVencimento;
     private String referencia;
@@ -42,4 +50,20 @@ public class LancamentoFinanceiro {
     private String responsavelLancamento;
     private String campanha = "META_GERAL";
     private Boolean anonima = false;
+
+    public Double getValor() {
+        return valor == null ? 0.0 : valor.doubleValue();
+    }
+
+    public void setValor(Double valor) {
+        this.valor = BigDecimal.valueOf(valor == null ? 0.0 : valor);
+    }
+
+    public BigDecimal getValorDecimal() {
+        return valor == null ? BigDecimal.ZERO : valor;
+    }
+
+    public void setValorDecimal(BigDecimal valor) {
+        this.valor = valor == null ? BigDecimal.ZERO : valor;
+    }
 }

@@ -1,9 +1,8 @@
 package br.com.senac.formatura.sistema_gerenciamento_formaturas.model;
 
-import java.time.LocalDate;
-
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -13,29 +12,22 @@ import lombok.Data;
 
 @Data
 @Entity
-public class Tarefa {
+public class RequisitoDocumentoTurma {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "turma_id", nullable = false)
     private Turma turma;
 
-    @ManyToOne
-    @JoinColumn(name = "organizacao_id")
-    private Organizacao organizacao;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "tipo_documento_id", nullable = false)
+    private TipoDocumento tipoDocumento;
 
-    @ManyToOne
-    @JoinColumn(name = "responsavel_id")
-    private Aluno responsavel;
-
-    private String titulo;
-    
-    @Column(columnDefinition = "TEXT")
-    private String descricao;
-    
-    private String status = "a_fazer";
-    private LocalDate dataLimite;
+    private Boolean obrigatorio = true;
     private Boolean ativo = true;
+
+    @Enumerated(EnumType.STRING)
+    private StatusRegistro status = StatusRegistro.ATIVO;
 }

@@ -1,7 +1,14 @@
 package br.com.senac.formatura.sistema_gerenciamento_formaturas.repository;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import br.com.senac.formatura.sistema_gerenciamento_formaturas.model.Turma;
 
-public interface TurmaRepository extends JpaRepository<Turma, Long> {}
+public interface TurmaRepository extends JpaRepository<Turma, Long> {
+    List<Turma> findByOrganizacaoIdOrderByNomeAsc(Long organizacaoId);
+    List<Turma> findByInstituicaoEntidadeIdOrderByNomeAsc(Long instituicaoId);
+    Optional<Turma> findByIdAndOrganizacaoId(Long id, Long organizacaoId);
+}

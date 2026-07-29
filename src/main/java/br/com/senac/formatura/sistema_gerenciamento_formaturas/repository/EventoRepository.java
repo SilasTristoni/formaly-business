@@ -10,4 +10,5 @@ import br.com.senac.formatura.sistema_gerenciamento_formaturas.model.Evento;
 @Repository
 public interface EventoRepository extends JpaRepository<Evento, Long> {
     List<Evento> findByTurmaIdOrderByDataEventoAscNomeAsc(Long turmaId);
+    List<Evento> findByOrganizacaoIdOrderByDataEventoAscNomeAsc(Long organizacaoId);
 }
