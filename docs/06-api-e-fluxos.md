@@ -137,8 +137,8 @@ Authorization: Bearer <token>
 
 ```json
 {
-  "login": "admin@gestaoform.com",
-  "senha": "admin123"
+  "login": "admin.demo@formaly.local",
+  "senha": "<senha-demo-configurada-por-ambiente>"
 }
 ```
 
@@ -146,9 +146,9 @@ Authorization: Bearer <token>
 
 ```json
 {
-  "nome": "Silas Tristoni",
-  "identificador": "silas.tristoni",
-  "contato": "silas@email.com",
+  "nome": "Marina Ficticia",
+  "identificador": "demo001",
+  "contato": "marina.demo@example.test",
   "turmaId": 1,
   "perfil": "ALUNO"
 }

@@ -1,0 +1,4 @@
+nome;identificador;email;telefone;whatsapp;situacao_escolar;situacao_contratual;situacao_beca
+Lara Martins;lara.martins;lara.martins@formaly.demo;(47) 3200-4101;(47) 99000-4101;REGULAR;CONTRATO_ASSINADO;MEDIDAS_ENVIADAS
+Mateus Correia;mateus.correia;mateus.correia@formaly.demo;(47) 3200-4102;(47) 99000-4102;PENDENTE;CONTRATO_PENDENTE;MEDIDAS_PENDENTES
+Nina Teixeira;nina.teixeira;nina.teixeira@formaly.demo;(47) 3200-4103;(47) 99000-4103;REGULAR;CONTRATO_ASSINADO;ENTREGUE
