@@ -13,7 +13,7 @@ const loginHelper = document.getElementById('studentLoginHelper');
 const defaultButtonMarkup = loginButton?.innerHTML || '';
 
 function redirectByProfile(perfil) {
-    window.location.href = perfil === 'ROLE_COMISSAO' ? './index.html' : './aluno.html';
+    window.location.href = perfil === 'ROLE_ALUNO' ? './aluno.html' : './index.html';
 }
 
 function setLoading(isLoading) {
