@@ -33,3 +33,13 @@ Decisao: adicionar Flyway por nao haver estrategia versionada. A migration inici
 ## PDF
 
 Decisao: manter OpenPDF legado, mas priorizar CSV nos novos relatorios porque e mais confiavel para demonstracao operacional.
+
+## Refinamento visual Timbe
+
+Opcoes: apenas trocar variaveis no CSS existente, migrar para um framework frontend, ou reorganizar a base estatica atual em sistema de design.
+
+Decisao: manter HTML/CSS/JS e separar a identidade em `tokens.css`, `base.css`, `layout.css`, `components.css` e arquivos por pagina. A mudanca reduz duplicacao, preserva a arquitetura existente e evita custo de migracao para React/Vue/Angular.
+
+## Ativos de marca
+
+Decisao: copiar localmente apenas o logo e poucas fotografias publicas necessarias para a demonstracao, convertendo fotos para WebP e documentando origem/autorizacao. Nao usar hotlink e manter os arquivos em `src/main/resources/static/assets/brand/timbe/` para substituicao futura por ativos autorizados ou white-label.
