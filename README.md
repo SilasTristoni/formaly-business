@@ -2,7 +2,7 @@
 
 Prototipo B2B para gestao de turmas, alunos, documentos e comprovantes de formatura.
 
-Contexto da demonstracao: prototipo preparado para validacao com a Timbe Eventos. Ele nao representa uma plataforma oficial contratada ou homologada pela empresa.
+Contexto da demonstracao: prototipo preparado para validacao com a Timbe Formaturas. Ele nao representa uma plataforma oficial contratada ou homologada pela empresa.
 
 ## Status
 
@@ -21,6 +21,7 @@ Prototipo conceitual funcional. Os dados de demonstracao sao ficticios e podem s
 - Importacao de alunos por CSV ou XLSX com preview, validacao e estrategia de duplicidade.
 - Relatorios operacionais e exportacao CSV.
 - Seed demonstrativo com dados ficticios.
+- Identidade visual inspirada no site publico da Timbe Formaturas, com ativos locais documentados e aviso de prototipo.
 
 ## Arquitetura
 
@@ -30,6 +31,7 @@ Prototipo conceitual funcional. Os dados de demonstracao sao ficticios e podem s
 - Banco MySQL em local/demo; H2 para testes e smoke demo local.
 - Flyway com migration incremental inicial.
 - Frontend estatico em HTML, CSS e JavaScript ES Modules.
+- CSS organizado em tokens, base, layout, componentes e estilos por pagina.
 - Upload local via `StorageService`, com caminho configuravel e pronto para futura implementacao S3.
 
 ## Requisitos
@@ -96,6 +98,14 @@ Use apenas em ambiente local ou demo. Em qualquer ambiente compartilhado, substi
 .\mvnw.cmd package
 ```
 
+Smoke visual responsivo com Playwright, com a aplicacao ja iniciada:
+
+```powershell
+./scripts/visual-smoke.ps1 -BaseUrl http://localhost:18080 -OutputDir target/visual/final-smoke
+```
+
+O script valida login, dashboard, turmas, detalhe do aluno, documentos, portal do aluno, quatro perfis demo, oito viewports e ausencia de overflow horizontal evidente.
+
 ## Dados de demonstracao
 
 O seed roda quando `APP_DEMO_SEED_ENABLED=true`. Para recriar a demonstracao local com MySQL, limpe o banco `formaly_business` e remova os arquivos de `FORMALY_STORAGE_PATH`. No perfil `demo-h2`, remova `target/formaly-business-demo*` e a pasta configurada em `FORMALY_STORAGE_PATH`.
@@ -106,6 +116,8 @@ O seed roda quando `APP_DEMO_SEED_ENABLED=true`. Para recriar a demonstracao loc
 - `src/main/java/.../controller`: APIs.
 - `src/main/java/.../service`: seguranca de dominio, storage, documentos e importacao.
 - `src/main/resources/static`: frontend estatico.
+- `src/main/resources/static/assets/brand/timbe`: ativos locais da demonstracao visual.
+- `src/main/resources/static/css`: sistema visual do Formaly Business.
 - `src/main/resources/db/migration`: migrations Flyway.
 - `docs`: documentacao do prototipo.
 
@@ -115,6 +127,7 @@ O seed roda quando `APP_DEMO_SEED_ENABLED=true`. Para recriar a demonstracao loc
 - PDF operacional legado foi mantido, mas os novos relatorios priorizam CSV.
 - A matriz de permissoes e inicial e deve ser validada com o cliente.
 - Nao ha notificacoes, assinatura digital, pagamentos ou integracoes externas.
+- Logo e fotografias da Timbe estao pendentes de autorizacao formal para uso externo.
 
 ## Seguranca
 
