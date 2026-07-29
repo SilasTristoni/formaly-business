@@ -1,0 +1,53 @@
+:root {
+  --brand-primary: #0170b9;
+  --brand-primary-hover: #0486d5;
+  --brand-primary-dark: #003f68;
+  --brand-primary-soft: #e7f5ff;
+  --brand-secondary: #030303;
+  --brand-accent: #ffbf27;
+  --brand-accent-hover: #f0ad00;
+  --brand-accent-soft: #fff5d6;
+  --brand-teal: #0c8d89;
+  --brand-background: #f7f6f2;
+  --brand-surface: #ffffff;
+  --brand-surface-elevated: #fffdf8;
+  --brand-surface-muted: #eef6fb;
+  --brand-text: #202329;
+  --brand-text-strong: #050505;
+  --brand-text-soft: #60646f;
+  --brand-text-inverse: #ffffff;
+  --brand-border: #e4ded0;
+  --brand-border-strong: #cfc5b4;
+  --brand-success: #1f8a5b;
+  --brand-warning: #a96800;
+  --brand-danger: #be3d34;
+  --brand-info: #0170b9;
+  --brand-overlay: rgba(3, 3, 3, .72);
+  --brand-shadow: 0 18px 46px rgba(15, 20, 28, .12);
+  --brand-shadow-soft: 0 10px 28px rgba(15, 20, 28, .08);
+  --brand-gradient: linear-gradient(135deg, #030303 0%, #092238 46%, #0170b9 100%);
+  --brand-photo-overlay: linear-gradient(90deg, rgba(3, 3, 3, .88), rgba(3, 3, 3, .62) 45%, rgba(1, 112, 185, .24));
+
+  --font-sans: Poppins, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-display: Prata, Georgia, serif;
+
+  --radius-xs: 3px;
+  --radius-sm: 5px;
+  --radius: 8px;
+  --radius-lg: 8px;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 28px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+
+  --sidebar-width: 286px;
+  --sidebar-collapsed: 92px;
+  --topbar-height: 86px;
+}

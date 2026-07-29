@@ -1,0 +1,81 @@
+.dashboard-hero {
+  min-height: 300px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(260px, .55fr);
+  gap: var(--space-5);
+  align-items: end;
+  padding: clamp(24px, 4vw, 44px);
+  border-radius: var(--radius);
+  color: #fff;
+  background:
+    linear-gradient(90deg, rgba(3, 3, 3, .9), rgba(3, 3, 3, .68) 52%, rgba(1, 112, 185, .28)),
+    url("../../assets/brand/timbe/dashboard-cover.webp") center/cover no-repeat;
+  box-shadow: var(--brand-shadow);
+  overflow: hidden;
+}
+
+.dashboard-hero h2 {
+  margin: 0;
+  max-width: 820px;
+  font-size: clamp(2rem, 4vw, 4rem);
+  line-height: 1;
+}
+
+.dashboard-hero h2 span {
+  color: var(--brand-accent);
+  font-family: var(--font-display);
+  font-weight: 400;
+}
+
+.dashboard-hero p {
+  max-width: 640px;
+  margin: var(--space-3) 0 0;
+  color: rgba(255, 255, 255, .84);
+  font-weight: 500;
+}
+
+.dashboard-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+}
+
+.dashboard-spotlight {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border: 1px solid rgba(255, 255, 255, .2);
+  border-radius: var(--radius);
+  background: rgba(3, 3, 3, .52);
+}
+
+.dashboard-spotlight strong {
+  color: var(--brand-accent);
+  font-size: .86rem;
+  text-transform: uppercase;
+}
+
+.dashboard-spotlight span {
+  color: rgba(255, 255, 255, .86);
+  font-size: .9rem;
+}
+
+@media (max-width: 900px) {
+  .dashboard-hero {
+    grid-template-columns: 1fr;
+    min-height: 420px;
+    align-items: end;
+  }
+}
+
+@media (max-width: 520px) {
+  .dashboard-hero {
+    min-height: 360px;
+    padding: var(--space-5);
+  }
+
+  .dashboard-hero__actions .button {
+    width: 100%;
+  }
+}
