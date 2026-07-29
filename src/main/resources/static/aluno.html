@@ -4,16 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Formaly Business | Aluno</title>
-  <meta name="theme-color" content="#0170b9">
+  <meta name="theme-color" content="#030303">
+  <link rel="preload" as="image" href="./assets/brand/timbe/student-hero.webp">
   <link rel="stylesheet" href="./css/business.css">
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
-<body>
+<body class="student-page">
   <div id="toastContainer" class="toast-stack" aria-live="polite"></div>
   <main class="student-shell-main">
     <header class="student-header">
       <div class="brand-lockup">
-        <span class="brand-symbol"><i class="ph ph-student"></i></span>
+        <img class="brand-logo" src="./assets/brand/timbe/logo-original.png" alt="Timbé Formaturas" width="133" height="67">
         <div>
           <strong>Formaly Business</strong>
           <span>Área do aluno</span>
@@ -21,6 +22,12 @@
       </div>
       <button id="logoutBtn" class="button"><i class="ph ph-sign-out"></i> Sair</button>
     </header>
+
+    <section class="student-intro" aria-label="Acompanhamento do aluno">
+      <p class="eyebrow">Sua formatura em acompanhamento</p>
+      <h1>Documentos em dia para viver <span>seu momento.</span></h1>
+      <p>Acompanhe pendências, envie arquivos e veja os próximos marcos da turma em uma experiência simples para celular.</p>
+    </section>
 
     <section id="studentState" class="state">Carregando seu painel...</section>
 
@@ -51,7 +58,7 @@
       </article>
     </section>
 
-    <footer class="muted">Protótipo conceitual para validação — não representa uma plataforma oficial da Timbé Eventos.</footer>
+    <footer class="muted">Protótipo conceitual para validação — não representa uma plataforma oficial da Timbé Formaturas.</footer>
   </main>
 
   <dialog id="uploadDialog"><form id="studentUploadForm" class="modal" method="dialog"></form></dialog>

@@ -141,7 +141,19 @@ function showState(message, error = false) {
 }
 
 function metric(label, value, hint) {
-  return `<article class="metric-card"><span>${escapeHtml(label)}</span><strong>${escapeHtml(String(value))}</strong><small>${escapeHtml(hint)}</small></article>`;
+  return `<article class="metric-card">
+    <div><span>${escapeHtml(label)}</span><strong>${escapeHtml(String(value))}</strong><small>${escapeHtml(hint)}</small></div>
+    <div class="metric-card__icon" aria-hidden="true"><i class="ph ${metricIcon(label)}"></i></div>
+  </article>`;
+}
+
+function metricIcon(label = '') {
+  const value = String(label).toLowerCase();
+  if (value.includes('document')) return 'ph-files';
+  if (value.includes('pend')) return 'ph-warning-circle';
+  if (value.includes('evento')) return 'ph-calendar-check';
+  if (value.includes('vota')) return 'ph-check-square';
+  return 'ph-sparkle';
 }
 
 function badge(status = '') {

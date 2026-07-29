@@ -71,6 +71,7 @@ function bindShellEvents() {
   });
   document.getElementById('refreshBtn')?.addEventListener('click', () => loadScreen(state.screen, true));
   document.getElementById('menuToggle')?.addEventListener('click', () => document.body.classList.toggle('menu-open'));
+  document.getElementById('sidebarCollapse')?.addEventListener('click', () => document.body.classList.toggle('sidebar-collapsed'));
   document.getElementById('globalInstituicaoFilter')?.addEventListener('change', async () => {
     populateTurmaFilters();
     await loadScreen(state.screen, true);
@@ -119,6 +120,7 @@ async function loadScreen(screen, keepRefs = false) {
     if (screen === 'importacao') renderImportScreen();
     if (screen === 'relatorios') await loadReport();
     if (screen === 'permissoes') renderPermissions();
+    enhanceResponsiveTables();
   } catch (error) {
     handleError(error);
   }
@@ -201,9 +203,12 @@ function renderMetrics(containerId, metrics = []) {
   if (!container) return;
   container.innerHTML = metrics.length ? metrics.map(metric => `
     <article class="metric-card" data-tone="${escapeHtml(metric.tone || 'neutral')}">
-      <span>${escapeHtml(metric.label)}</span>
-      <strong>${escapeHtml(metric.value)}</strong>
-      <small>${escapeHtml(metric.hint || '')}</small>
+      <div>
+        <span>${escapeHtml(metric.label)}</span>
+        <strong>${escapeHtml(metric.value)}</strong>
+        <small>${escapeHtml(metric.hint || '')}</small>
+      </div>
+      <div class="metric-card__icon" aria-hidden="true"><i class="ph ${metricIcon(metric.label)}"></i></div>
     </article>
   `).join('') : emptyHtml('Sem indicadores para este filtro.');
 }
@@ -238,6 +243,10 @@ function renderAtividades() {
 }
 
 function renderEventos() {
+  const destaque = state.dashboard.proximosEventos?.[0];
+  setText('dashboardHeroEvent', destaque
+    ? `${destaque.nome} | ${formatDate(destaque.dataEvento)} | ${destaque.turma || 'Turma a definir'}`
+    : 'Nenhum evento próximo no filtro atual.');
   setList('proximosEventos', state.dashboard.proximosEventos, item => `
     <div class="activity-item">
       <strong>${escapeHtml(item.nome)}</strong>
@@ -664,6 +673,7 @@ function setTable(id, rows, mapper, columns) {
   const body = document.getElementById(id);
   if (!body) return;
   body.innerHTML = rows.length ? rows.map(mapper).join('') : `<tr><td colspan="${columns}">${emptyHtml('Sem registros para exibir.')}</td></tr>`;
+  enhanceResponsiveTables();
 }
 
 function setList(id, rows, mapper, emptyMessage) {
@@ -673,7 +683,10 @@ function setList(id, rows, mapper, emptyMessage) {
 }
 
 function metricHtml(label, value, hint, tone) {
-  return `<article class="metric-card" data-tone="${tone}"><span>${escapeHtml(label)}</span><strong>${escapeHtml(String(value))}</strong><small>${escapeHtml(hint)}</small></article>`;
+  return `<article class="metric-card" data-tone="${tone}">
+    <div><span>${escapeHtml(label)}</span><strong>${escapeHtml(String(value))}</strong><small>${escapeHtml(hint)}</small></div>
+    <div class="metric-card__icon" aria-hidden="true"><i class="ph ${metricIcon(label)}"></i></div>
+  </article>`;
 }
 
 function emptyHtml(message) {
@@ -724,6 +737,30 @@ function setText(id, value) {
 function setHtml(id, html) {
   const el = document.getElementById(id);
   if (el) el.innerHTML = html;
+}
+
+function metricIcon(label = '') {
+  const value = String(label).toLowerCase();
+  if (value.includes('turma')) return 'ph-graduation-cap';
+  if (value.includes('institui')) return 'ph-bank';
+  if (value.includes('aluno')) return 'ph-student';
+  if (value.includes('cadastro')) return 'ph-identification-card';
+  if (value.includes('doc')) return 'ph-files';
+  if (value.includes('comprovante')) return 'ph-receipt';
+  if (value.includes('evento')) return 'ph-calendar-check';
+  if (value.includes('pend')) return 'ph-warning-circle';
+  return 'ph-sparkle';
+}
+
+function enhanceResponsiveTables() {
+  document.querySelectorAll('table').forEach(table => {
+    const headers = Array.from(table.querySelectorAll('thead th')).map(th => th.textContent.trim());
+    table.querySelectorAll('tbody tr').forEach(row => {
+      Array.from(row.children).forEach((cell, index) => {
+        if (headers[index]) cell.setAttribute('data-label', headers[index]);
+      });
+    });
+  });
 }
 
 function valueOf(id) {

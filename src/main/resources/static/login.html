@@ -4,7 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Formaly Business | Entrar</title>
-  <meta name="theme-color" content="#0170b9">
+  <meta name="theme-color" content="#030303">
+  <link rel="preload" as="image" href="./assets/brand/timbe/hero-login.webp">
   <link rel="stylesheet" href="./css/business.css">
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
@@ -13,26 +14,30 @@
   <div id="toastContainer" class="toast-stack" aria-live="polite"></div>
 
   <main class="login-shell">
-    <section class="login-hero" aria-label="Contexto do prototipo">
-      <div class="brand-lockup">
-        <span class="brand-symbol"><i class="ph ph-buildings"></i></span>
-        <div>
+    <section class="login-hero" aria-label="Contexto do protótipo">
+      <div class="login-brand">
+        <img src="./assets/brand/timbe/logo-original.png" alt="Timbé Formaturas" width="133" height="67">
+        <div class="login-product">
           <strong>Formaly Business</strong>
-          <span>Gestao inteligente de turmas, alunos e documentos de formatura</span>
+          <span>Gestão inteligente de turmas, alunos e documentos</span>
         </div>
       </div>
+
       <div class="login-copy">
-        <p class="eyebrow">Protótipo B2B</p>
-        <h1>Operacao de formaturas centralizada para times que hoje dependem de planilhas.</h1>
-        <p>Dashboard, cadastros, documentos, comprovantes, importacao e relatorios em uma experiencia demonstravel.</p>
+        <p class="eyebrow">Protótipo preparado para validação</p>
+        <h1>Tornamos sua operação de formaturas <span class="display-accent">inesquecível.</span></h1>
+        <p>Uma plataforma demonstrável para centralizar turmas, alunos, documentos e momentos importantes com o cuidado visual de uma celebração Timbé.</p>
       </div>
-      <div class="demo-credentials">
-        <strong>Acessos locais de demonstracao</strong>
-        <span>Admin: admin.demo@formaly.local / DemoAdmin2026!</span>
-        <span>Colaborador: colaborador.demo@formaly.local / DemoColaborador2026!</span>
-        <span>Comissao: comissao.demo@formaly.local / DemoComissao2026!</span>
-        <span>Aluno: demo001 / DemoAluno2026!</span>
-      </div>
+
+      <details class="login-demo">
+        <summary>Acessos locais de demonstração</summary>
+        <div class="login-demo__grid">
+          <span>Admin: admin.demo@formaly.local / DemoAdmin2026!</span>
+          <span>Colaborador: colaborador.demo@formaly.local / DemoColaborador2026!</span>
+          <span>Comissão: comissao.demo@formaly.local / DemoComissao2026!</span>
+          <span>Aluno: demo001 / DemoAluno2026!</span>
+        </div>
+      </details>
     </section>
 
     <section class="login-card" aria-label="Login">
@@ -53,10 +58,10 @@
             <button id="togglePasswordBtn" type="button" aria-label="Mostrar ou ocultar senha"><i class="ph ph-eye"></i></button>
           </div>
         </label>
-        <p id="capsLockWarning" class="field-error" hidden>Caps Lock esta ativado.</p>
+        <p id="capsLockWarning" class="field-error" hidden>Caps Lock está ativado.</p>
         <button id="btnLogin" class="button button--primary" type="submit"><i class="ph ph-sign-in"></i> Entrar no painel</button>
       </form>
-      <p class="prototype-note">Protótipo conceitual para validação — não representa uma plataforma oficial da Timbé Eventos.</p>
+      <p class="prototype-note">Protótipo conceitual para validação — não representa uma plataforma oficial da Timbé Formaturas.</p>
     </section>
   </main>
 

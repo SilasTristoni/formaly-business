@@ -4,7 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Formaly Business | Painel</title>
-  <meta name="theme-color" content="#0170b9">
+  <meta name="theme-color" content="#030303">
+  <link rel="preload" as="image" href="./assets/brand/timbe/dashboard-cover.webp">
   <link rel="stylesheet" href="./css/business.css">
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
@@ -15,32 +16,36 @@
   <div class="app-shell">
     <aside class="sidebar" id="sidebar" aria-label="Menu principal">
       <div class="sidebar__brand">
-        <div class="brand-lockup">
-          <span class="brand-symbol"><i class="ph ph-buildings"></i></span>
-          <div>
+        <div class="sidebar__brand-main">
+          <img class="brand-logo" src="./assets/brand/timbe/logo-original.png" alt="Timbé Formaturas" width="133" height="67">
+          <div class="product-mark">
             <strong>Formaly Business</strong>
             <span>Protótipo Timbé</span>
           </div>
         </div>
+        <span class="org-pill"><i class="ph ph-map-pin"></i> Timbé Formaturas — Ambiente Demonstrativo</span>
+        <button id="sidebarCollapse" class="sidebar-collapse" type="button" aria-label="Recolher menu"><i class="ph ph-sidebar-simple"></i></button>
       </div>
+
       <nav class="nav-list">
-        <button class="nav-button is-active" data-screen="dashboard"><i class="ph ph-squares-four"></i> Dashboard</button>
-        <button class="nav-button" data-screen="instituicoes"><i class="ph ph-bank"></i> Instituições</button>
-        <button class="nav-button" data-screen="turmas"><i class="ph ph-graduation-cap"></i> Turmas</button>
-        <button class="nav-button" data-screen="alunos"><i class="ph ph-student"></i> Alunos</button>
-        <button class="nav-button" data-screen="documentos"><i class="ph ph-files"></i> Documentos</button>
-        <button class="nav-button" data-screen="comprovantes"><i class="ph ph-receipt"></i> Comprovantes</button>
-        <button class="nav-button" data-screen="importacao"><i class="ph ph-upload-simple"></i> Importação</button>
-        <button class="nav-button" data-screen="relatorios"><i class="ph ph-chart-line-up"></i> Relatórios</button>
-        <button class="nav-button" data-screen="permissoes"><i class="ph ph-shield-check"></i> Permissões</button>
+        <button class="nav-button is-active" data-screen="dashboard"><i class="ph ph-squares-four"></i><span>Dashboard</span></button>
+        <button class="nav-button" data-screen="instituicoes"><i class="ph ph-bank"></i><span>Instituições</span></button>
+        <button class="nav-button" data-screen="turmas"><i class="ph ph-graduation-cap"></i><span>Turmas</span></button>
+        <button class="nav-button" data-screen="alunos"><i class="ph ph-student"></i><span>Alunos</span></button>
+        <button class="nav-button" data-screen="documentos"><i class="ph ph-files"></i><span>Documentos</span></button>
+        <button class="nav-button" data-screen="comprovantes"><i class="ph ph-receipt"></i><span>Comprovantes</span></button>
+        <button class="nav-button" data-screen="importacao"><i class="ph ph-upload-simple"></i><span>Importação</span></button>
+        <button class="nav-button" data-screen="relatorios"><i class="ph ph-chart-line-up"></i><span>Relatórios</span></button>
+        <button class="nav-button" data-screen="permissoes"><i class="ph ph-shield-check"></i><span>Permissões</span></button>
       </nav>
+
       <div class="sidebar__footer">
         <div class="user-chip">
           <strong id="userNameDisplay">Carregando</strong>
           <span id="userRoleDisplay">...</span>
           <span id="userLoginDisplay">...</span>
         </div>
-        <button id="logoutBtn" class="button button--ghost"><i class="ph ph-sign-out"></i> Sair</button>
+        <button id="logoutBtn" class="button button--ghost"><i class="ph ph-sign-out"></i><span>Sair</span></button>
       </div>
     </aside>
 
@@ -51,7 +56,7 @@
           <div id="breadcrumbs" class="breadcrumbs">Formaly Business / Dashboard</div>
           <h1 id="pageTitle" class="page-title">Dashboard operacional</h1>
         </div>
-        <div class="filter-row">
+        <div class="filter-row" aria-label="Filtros globais">
           <label>
             <span>Instituição</span>
             <select id="globalInstituicaoFilter"><option value="">Todas</option></select>
@@ -66,6 +71,22 @@
 
       <div class="content">
         <section id="screen-dashboard" class="screen is-active">
+          <article class="dashboard-hero">
+            <div>
+              <p class="eyebrow">Operação do dia</p>
+              <h2>Boa gestão para celebrar <span>cada conquista.</span></h2>
+              <p>Acompanhe turmas, documentos e momentos importantes em um só lugar, com dados de demonstração preparados para validação com a Timbé Formaturas.</p>
+              <div class="dashboard-hero__actions">
+                <button class="button button--primary" data-action="nova-turma"><i class="ph ph-graduation-cap"></i> Nova turma</button>
+                <button class="button" data-action="upload-documento"><i class="ph ph-upload"></i> Analisar documento</button>
+              </div>
+            </div>
+            <aside class="dashboard-spotlight">
+              <strong>Próximo marco</strong>
+              <span id="dashboardHeroEvent">Carregando agenda...</span>
+            </aside>
+          </article>
+
           <div id="dashboardState" class="state">Carregando indicadores...</div>
           <div id="metricsGrid" class="metric-grid"></div>
           <div class="grid-2">
@@ -174,7 +195,7 @@
           </article>
         </section>
       </div>
-      <footer class="content muted">Protótipo conceitual para validação — não representa uma plataforma oficial da Timbé Eventos.</footer>
+      <footer class="content muted">Protótipo conceitual para validação — não representa uma plataforma oficial da Timbé Formaturas.</footer>
     </main>
   </div>
 
