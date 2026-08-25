@@ -7,6 +7,13 @@ $site = Join-Path $repoRoot '_site'
 $static = Join-Path $repoRoot 'src/main/resources/static'
 $demo = Join-Path $repoRoot 'pages-demo'
 
+if (-not (Test-Path $static)) {
+    throw "Pasta de arquivos estáticos não encontrada: $static"
+}
+if (-not (Test-Path $demo)) {
+    throw "Pasta da demo não encontrada: $demo"
+}
+
 if (Test-Path $site) {
     Remove-Item $site -Recurse -Force
 }
@@ -24,12 +31,19 @@ Copy-Item (Join-Path $demo 'js\*') (Join-Path $site 'js') -Recurse -Force
 Copy-Item (Join-Path $demo 'css\demo-signature.css') (Join-Path $site 'css\demo-signature.css') -Force
 New-Item -ItemType File -Force -Path (Join-Path $site '.nojekyll') | Out-Null
 
+$index = Join-Path $site 'index.html'
+if (-not (Test-Path $index)) {
+    throw "Build inválido: index.html não foi gerado em $site"
+}
+
 Write-Host ''
-Write-Host 'Demo estática preparada em:' -ForegroundColor Green
+Write-Host 'Demo estática preparada com sucesso em:' -ForegroundColor Green
 Write-Host "  $site"
 Write-Host ''
-Write-Host 'Agora execute:' -ForegroundColor Cyan
-Write-Host '  python -m http.server 5500 --directory _site'
+Write-Host 'Iniciando servidor local automaticamente...' -ForegroundColor Cyan
+Write-Host 'Acesse: http://localhost:5500/' -ForegroundColor Yellow
+Write-Host 'Para encerrar o servidor, pressione Ctrl+C.' -ForegroundColor DarkGray
 Write-Host ''
-Write-Host 'Depois acesse:' -ForegroundColor Cyan
-Write-Host '  http://localhost:5500/'
+
+Set-Location $site
+python -m http.server 5500
