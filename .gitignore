@@ -36,3 +36,6 @@ build/
 uploads/
 formaly-uploads/
 .formaly-business/
+
+### Demo estática local / GitHub Pages ###
+_site/
