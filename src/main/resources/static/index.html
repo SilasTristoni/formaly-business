@@ -1,714 +1,207 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="dark">
+<html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Formaly | Central</title>
-
-  <script>
-    window.APP_CONFIG = { LOGIN_URL: "./login.html", MAIN_SCRIPT: "./js/main.js" };
-  </script>
-
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Formaly Business | Painel</title>
+  <meta name="theme-color" content="#030303">
+  <link rel="preload" as="image" href="./assets/brand/timbe/dashboard-cover.webp">
+  <link rel="stylesheet" href="./css/business.css">
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
-
-  <script>
-    tailwind.config = {
-      darkMode: "class",
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ["Inter", "sans-serif"],
-            display: ["Space Grotesk", "sans-serif"]
-          },
-          colors: {
-            dark: { 950: "#020617", 900: "#0f172a", 800: "#111827", 700: "#1f2937", 600: "#334155" },
-            primary: { 400: "#34d399", 500: "#10b981", 600: "#059669" }
-          }
-        }
-      }
-    };
-  </script>
-  <script>
-    try {
-      document.documentElement.classList.toggle("light", localStorage.getItem("gestaoform.theme") === "light");
-      document.documentElement.classList.toggle("dark", localStorage.getItem("gestaoform.theme") !== "light");
-    } catch (error) {}
-  </script>
-
-  <link rel="stylesheet" href="./css/style.css" />
-  <link rel="manifest" href="./manifest.json" />
-  <meta name="theme-color" content="#10b981" />
-  <style>body.auth-pending{visibility:hidden;}</style>
 </head>
-<body class="auth-pending bg-dark-950 text-slate-300 font-sans antialiased">
-  <noscript><div class="noscript-warning">Este sistema precisa de JavaScript habilitado para funcionar.</div></noscript>
-  <div class="fixed inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,rgba(16,185,129,.12),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(59,130,246,.10),transparent_22%)]"></div>
+<body class="auth-pending">
+  <noscript><div class="state state--error">Este sistema precisa de JavaScript habilitado.</div></noscript>
+  <div id="toastContainer" class="toast-stack" aria-live="polite"></div>
 
-  <div class="admin-layout flex h-screen">
-    <aside id="adminSidebar" class="admin-sidebar w-72 flex-col bg-dark-800/80 backdrop-blur-xl border-r border-white/5" aria-label="Menu administrativo">
-      <div class="px-5 pt-5 pb-4 border-b border-white/6">
-        <div class="brand-sidebar">
-          <div class="brand-mark brand-mark--icon" aria-hidden="true">
-            <i class="ph ph-graduation-cap"></i>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="Menu principal">
+      <div class="sidebar__brand">
+        <div class="sidebar__brand-main">
+          <img class="brand-logo" src="./assets/brand/timbe/logo-original.png" alt="Timbé Formaturas" width="133" height="67">
+          <div class="product-mark">
+            <strong>Formaly Business</strong>
+            <span>Protótipo Timbé</span>
           </div>
-          <div>
-            <div class="text-white font-semibold text-lg leading-tight">Formaly</div>
-            <div class="text-xs text-slate-500">Painel inteligente da comissão</div>
-          </div>
-          <button id="adminSidebarClose" type="button" class="admin-sidebar-close md:hidden" aria-label="Fechar menu"><i class="ph ph-x"></i></button>
         </div>
+        <span class="org-pill"><i class="ph ph-map-pin"></i> Timbé Formaturas — Ambiente Demonstrativo</span>
+        <button id="sidebarCollapse" class="sidebar-collapse" type="button" aria-label="Recolher menu"><i class="ph ph-sidebar-simple"></i></button>
       </div>
 
-      <nav class="admin-nav overflow-y-auto py-4 px-3 space-y-1">
-        <button onclick="navigate('dashboard')" id="nav-dashboard" class="nav-item active"><i class="ph ph-squares-four text-xl"></i> Dashboard</button>
-        <button onclick="navigate('alunos')" id="nav-alunos" class="nav-item"><i class="ph ph-student text-xl"></i> Alunos</button>
-        <button onclick="navigate('turmas')" id="nav-turmas" class="nav-item"><i class="ph ph-graduation-cap text-xl"></i> Turmas</button>
-        <button onclick="navigate('eventos')" id="nav-eventos" class="nav-item"><i class="ph ph-calendar-check text-xl"></i> Eventos</button>
-        <button onclick="navigate('financeiro')" id="nav-financeiro" class="nav-item"><i class="ph ph-currency-dollar text-xl"></i> Financeiro</button>
-        <button onclick="navigate('contribuicoes')" id="nav-contribuicoes" class="nav-item"><i class="ph ph-gift text-xl"></i> Contribuições</button>
-        <button onclick="navigate('relatorios')" id="nav-relatorios" class="nav-item"><i class="ph ph-file-arrow-down text-xl"></i> Relatórios</button>
-        <button onclick="navigate('votacao')" id="nav-votacao" class="nav-item"><i class="ph ph-chart-bar text-xl"></i> Enquetes</button>
+      <nav class="nav-list">
+        <button class="nav-button is-active" data-screen="dashboard"><i class="ph ph-squares-four"></i><span>Dashboard</span></button>
+        <button class="nav-button" data-screen="instituicoes"><i class="ph ph-bank"></i><span>Instituições</span></button>
+        <button class="nav-button" data-screen="turmas"><i class="ph ph-graduation-cap"></i><span>Turmas</span></button>
+        <button class="nav-button" data-screen="alunos"><i class="ph ph-student"></i><span>Alunos</span></button>
+        <button class="nav-button" data-screen="documentos"><i class="ph ph-files"></i><span>Documentos</span></button>
+        <button class="nav-button" data-screen="comprovantes"><i class="ph ph-receipt"></i><span>Comprovantes</span></button>
+        <button class="nav-button" data-screen="importacao"><i class="ph ph-upload-simple"></i><span>Importação</span></button>
+        <button class="nav-button" data-screen="relatorios"><i class="ph ph-chart-line-up"></i><span>Relatórios</span></button>
+        <button class="nav-button" data-screen="permissoes"><i class="ph ph-shield-check"></i><span>Permissões</span></button>
       </nav>
-      <div class="brand-sidebar__card">
-        <div class="brand-sidebar__photo" data-class-photo-target aria-hidden="true"></div>
-        <div class="brand-sidebar__copy">
-          <span class="brand-tag">Identidade visual</span>
-          <strong>Campanha da turma</strong>
+
+      <div class="sidebar__footer">
+        <div class="user-chip">
+          <strong id="userNameDisplay">Carregando</strong>
+          <span id="userRoleDisplay">...</span>
+          <span id="userLoginDisplay">...</span>
         </div>
-      </div>
-      <div class="m-3 mt-auto">
-        <div class="rounded-[18px] border border-white/8 bg-white/[0.04] p-3">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-slate-700 flex items-center justify-center text-white font-bold text-base" id="userAvatar">U</div>
-            <div class="min-w-0">
-              <div class="text-sm text-white font-semibold truncate" id="userNameDisplay">Carregando...</div>
-              <div class="text-xs text-slate-500" id="userRoleDisplay">...</div>
-              <div class="text-xs text-emerald-300 truncate mt-1" id="userLoginDisplay">@...</div>
-            </div>
-          </div>
-          <button onclick="logout()" class="mt-3 w-full text-left flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-red-400 border border-red-500/15 bg-red-500/5 hover:bg-red-500/10 transition-colors text-sm font-semibold">
-            <i class="ph ph-sign-out text-lg"></i> Sair do Sistema
-          </button>
-        </div>
+        <button id="logoutBtn" class="button button--ghost"><i class="ph ph-sign-out"></i><span>Sair</span></button>
       </div>
     </aside>
-    <button id="adminSidebarBackdrop" type="button" class="admin-sidebar-backdrop" aria-label="Fechar menu"></button>
 
-    <main class="admin-main flex-1 flex flex-col h-screen overflow-hidden">
-      <header class="h-20 bg-dark-800/55 backdrop-blur-xl border-b border-white/5 flex items-center justify-between px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center gap-4">
-          <button id="menuToggle" class="md:hidden text-slate-400 hover:text-white" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="adminSidebar"><i class="ph ph-list text-2xl"></i></button>
-          <div>
-            <p class="text-xs uppercase tracking-[.2em] text-slate-500 font-bold">Painel central</p>
-            <h1 class="text-xl text-white font-bold">Formaly</h1>
-          </div>
+    <main class="main">
+      <header class="topbar">
+        <button id="menuToggle" class="icon-button mobile-menu" type="button" aria-label="Abrir menu"><i class="ph ph-list"></i></button>
+        <div>
+          <div id="breadcrumbs" class="breadcrumbs">Formaly Business / Dashboard</div>
+          <h1 id="pageTitle" class="page-title">Dashboard operacional</h1>
         </div>
-        <div class="flex items-center gap-3">
-          <button id="refreshBtn" onclick="carregarDados()" class="btn-outline"><i class="ph ph-arrows-clockwise"></i><span class="hidden sm:inline">Atualizar</span></button>
-          <button id="themeToggleBtn" onclick="toggleTheme()" class="btn-outline" type="button" aria-label="Alternar tema"><i class="ph ph-sun"></i><span class="hidden sm:inline">Claro</span></button>
-          <button onclick="openModal('new','lancamento')" class="btn btn-primary btn-admin shadow-lg"><i class="ph ph-plus-bold"></i> <span class="hidden sm:inline">Novo registro</span></button>
+        <div class="filter-row" aria-label="Filtros globais">
+          <label>
+            <span>Instituição</span>
+            <select id="globalInstituicaoFilter"><option value="">Todas</option></select>
+          </label>
+          <label>
+            <span>Turma</span>
+            <select id="globalTurmaFilter"><option value="">Todas</option></select>
+          </label>
+          <button id="refreshBtn" class="button"><i class="ph ph-arrows-clockwise"></i> Atualizar</button>
         </div>
       </header>
 
-      <div class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
-        <section id="screen-dashboard" class="screen active">
-          <div class="simple-hero">
+      <div class="content">
+        <section id="screen-dashboard" class="screen is-active">
+          <article class="dashboard-hero">
             <div>
-              <p class="simple-kicker">Tudo em um lugar</p>
-              <h2 class="simple-title">O que a turma precisa ver hoje</h2>
-              <p class="simple-copy">Uma visão rápida para acompanhar dinheiro, próximos passos e o que precisa de atenção.</p>
-            </div>
-            <div class="simple-hero__media">
-              <figure class="class-photo-frame">
-                <img id="classPhotoPreview" data-class-photo-target src="./assets/images/formatura-dashboard-identidade.png" alt="Imagem da turma" class="class-photo-image">
-              </figure>
-              <div class="brand-photo-controls brand-photo-controls--hero">
-                <label class="brand-photo-button">
-                  <i class="ph ph-image-square"></i>
-                  <span>Alterar foto</span>
-                  <input id="classPhotoInput" type="file" accept="image/*">
-                </label>
-                <button id="classPhotoSaveBtn" type="button" class="brand-photo-action" disabled>Salvar</button>
-                <button id="classPhotoClearBtn" type="button" class="brand-photo-action brand-photo-action--ghost">Padrao</button>
-              </div>
-              <div class="simple-update">
-                <span class="simple-update__label">Atualizado</span>
-                <strong id="lastUpdate" class="simple-update__value">Agora</strong>
+              <p class="eyebrow">Operação do dia</p>
+              <h2>Boa gestão para celebrar <span>cada conquista.</span></h2>
+              <p>Acompanhe turmas, documentos e momentos importantes em um só lugar, com dados de demonstração preparados para validação com a Timbé Formaturas.</p>
+              <div class="dashboard-hero__actions">
+                <button class="button button--primary" data-action="nova-turma"><i class="ph ph-graduation-cap"></i> Nova turma</button>
+                <button class="button" data-action="upload-documento"><i class="ph ph-upload"></i> Analisar documento</button>
               </div>
             </div>
-          </div>
+            <aside class="dashboard-spotlight">
+              <strong>Próximo marco</strong>
+              <span id="dashboardHeroEvent">Carregando agenda...</span>
+            </aside>
+          </article>
 
-          <div class="mb-6 rounded-[24px] border border-white/10 bg-white/[0.04] p-4 backdrop-blur-xl">
-            <div class="grid gap-4 lg:grid-cols-[1.2fr_220px_220px]">
-              <div>
-                <p class="text-xs uppercase tracking-[0.22em] text-slate-500 font-semibold">Filtro da dashboard</p>
-                <p class="mt-2 text-base font-semibold text-white" id="mainDashboardScopeLabel">Visão consolidada de todas as turmas</p>
-                <p class="mt-1 text-sm text-slate-400" id="mainDashboardFilterHint">Ajuste o recorte para analisar uma turma específica ou ampliar a janela histórica.</p>
-              </div>
-
-              <label class="block">
-                <span class="mb-2 block text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Turma</span>
-                <select id="mainDashboardTurmaFilter" class="w-full rounded-2xl border border-white/10 bg-slate-950/70 px-4 py-3 text-white outline-none transition focus:border-emerald-400/70 focus:ring-4 focus:ring-emerald-400/10">
-                  <option value="">Todas as turmas</option>
-                </select>
-              </label>
-
-              <label class="block">
-                <span class="mb-2 block text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Período</span>
-                <select id="mainDashboardPeriodFilter" class="w-full rounded-2xl border border-white/10 bg-slate-950/70 px-4 py-3 text-white outline-none transition focus:border-emerald-400/70 focus:ring-4 focus:ring-emerald-400/10">
-                  <option value="3">Últimos 3 meses</option>
-                  <option value="6">Últimos 6 meses</option>
-                  <option value="12">Últimos 12 meses</option>
-                </select>
-              </label>
-            </div>
-          </div>
-
-          <div class="simple-cards">
-            <article class="simple-card simple-card--money">
-              <span class="simple-card__label">Quanto temos hoje</span>
-              <strong id="statSaldo" class="simple-card__value">R$ 0,00</strong>
-              <small id="financeStatus">Estamos acompanhando o caixa da turma.</small>
+          <div id="dashboardState" class="state">Carregando indicadores...</div>
+          <div id="metricsGrid" class="metric-grid"></div>
+          <div class="grid-2">
+            <article class="panel">
+              <div class="panel__head"><h2 class="panel__title">Turmas com mais pendências</h2></div>
+              <div id="turmasPendencias" class="stack"></div>
             </article>
-            <article class="simple-card simple-card--event">
-              <span class="simple-card__label">Próximo evento</span>
-              <strong id="nextEventName" class="simple-card__value simple-card__value--sm">Nenhum evento agendado</strong>
-              <small id="nextEventDate">Sem data definida</small>
-            </article>
-            <article class="simple-card simple-card--attention">
-              <span class="simple-card__label">Turmas acompanhadas</span>
-              <strong id="statTurmas" class="simple-card__value">0</strong>
-              <small>grupos participando da meta atual</small>
+            <article class="panel">
+              <div class="panel__head"><h2 class="panel__title">Status documentais</h2></div>
+              <div id="statusDocumentais" class="stack"></div>
             </article>
           </div>
-
-          <div class="simple-grid">
-            <article class="simple-panel simple-panel--wide">
-              <div class="simple-panel__head">
-                <div>
-                  <p class="simple-kicker">Meta financeira</p>
-                  <h3 class="simple-panel__title">Progresso e próximo passo</h3>
-                </div>
-                <span id="goalProgressBadge" class="simple-goal-badge">Sem meta</span>
-              </div>
-              <div class="simple-goal-card">
-                <div class="simple-goal-card__top">
-                  <div>
-                    <strong id="goalProgressTitle" class="simple-goal-card__title">Meta ainda não definida</strong>
-                    <p id="goalProgressDescription" class="simple-goal-card__copy">Cadastre uma meta para visualizar o progresso da arrecadação.</p>
-                  </div>
-                  <strong id="goalProgressPercent" class="simple-goal-card__percent">0%</strong>
-                </div>
-                <div class="simple-goal-progress">
-                  <div id="goalProgressBar" class="simple-goal-progress__bar"></div>
-                </div>
-                <div class="simple-goal-stats">
-                  <div class="simple-goal-stat">
-                    <span>Arrecadado</span>
-                    <strong id="goalProgressRaised">R$ 0,00</strong>
-                  </div>
-                  <div class="simple-goal-stat">
-                    <span>Meta</span>
-                    <strong id="goalProgressTarget">R$ 0,00</strong>
-                  </div>
-                  <div class="simple-goal-stat">
-                    <span>Falta</span>
-                    <strong id="goalProgressRemaining">R$ 0,00</strong>
-                  </div>
-                </div>
-              </div>
+          <div class="grid-2">
+            <article class="panel">
+              <div class="panel__head"><h2 class="panel__title">Últimas atividades</h2></div>
+              <div id="ultimasAtividades" class="stack"></div>
             </article>
-
-            <article class="simple-panel">
-              <div class="simple-panel__head">
-                <div>
-                  <p class="simple-kicker">Decisões da semana</p>
-                  <h3 class="simple-panel__title">Foco rápido</h3>
-                </div>
-              </div>
-              <div id="notificationsList" class="simple-stack"></div>
-            </article>
-          </div>
-
-          <div class="simple-grid">
-            <article class="simple-panel simple-panel--wide">
-              <div class="simple-panel__head">
-                <div>
-                  <p class="simple-kicker">Dinheiro da turma</p>
-                  <h3 class="simple-panel__title">Entradas e saídas nos últimos meses</h3>
-                </div>
-              </div>
-              <div class="simple-chart">
-                <canvas id="monthlyChart"></canvas>
-              </div>
-            </article>
-
-            <article class="simple-panel">
-              <div class="simple-panel__head">
-                <div>
-                  <p class="simple-kicker">Agenda</p>
-                  <h3 class="simple-panel__title">Compromissos próximos</h3>
-                </div>
-              </div>
-              <div id="agendaPreviewList" class="simple-stack"></div>
-            </article>
-          </div>
-
-          <div class="simple-grid">
-            <article class="simple-panel simple-panel--wide">
-              <div class="simple-panel__head">
-                <div>
-                  <p class="simple-kicker">Movimentações recentes</p>
-                  <h3 class="simple-panel__title">Últimos registros financeiros</h3>
-                </div>
-              </div>
-              <div id="recentTransactions" class="simple-stack"></div>
-            </article>
-
-            <article class="simple-panel">
-              <div class="simple-panel__head">
-                <div>
-                  <p class="simple-kicker">Resumo rápido</p>
-                  <h3 class="simple-panel__title">Caixa e alertas</h3>
-                </div>
-              </div>
-              <div class="simple-summary">
-                <div class="simple-summary__row"><span>Receitas já registradas</span><strong id="statReceitas">R$ 0,00</strong></div>
-                <div class="simple-summary__row"><span>Despesas já registradas</span><strong id="statDespesas">R$ 0,00</strong></div>
-                <div class="simple-summary__row"><span>Saldo projetado</span><strong id="mainForecastBalance">R$ 0,00</strong></div>
-                <div class="simple-summary__row"><span>Votações abertas</span><strong id="financeVotacoes">0</strong></div>
-              </div>
-              <p class="mt-4 text-sm text-slate-400" id="mainForecastHint">Sem previsão calculada ainda.</p>
-              <div id="alertsList" class="simple-stack mt-4"></div>
+            <article class="panel">
+              <div class="panel__head"><h2 class="panel__title">Próximos eventos</h2></div>
+              <div id="proximosEventos" class="stack"></div>
             </article>
           </div>
         </section>
 
-        <section id="screen-alunos" class="screen hidden">
-          <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-4">
-            <div>
-              <h2 class="text-2xl font-bold text-white">Alunos</h2>
-              <p class="text-sm text-slate-500 mt-1">Cadastre alunos com identificador próprio para login.</p>
-            </div>
-            <div class="flex gap-2 flex-wrap">
-              <input type="file" id="fileImportCSV" accept=".csv" class="hidden" onchange="importarAlunosCSV(event)">
-              <button onclick="document.getElementById('fileImportCSV').click()" class="btn btn-primary bg-teal-600 hover:bg-teal-500 btn-admin"><i class="ph ph-upload-simple"></i> Importar CSV</button>
-              <button onclick="openModal('new','aluno')" class="btn btn-primary btn-admin">Novo Aluno</button>
-            </div>
+        <section id="screen-instituicoes" class="screen">
+          <div class="toolbar">
+            <div class="filter-row"><label><span>Busca</span><input id="instituicaoBusca" type="search" placeholder="Nome, cidade"></label></div>
+            <button class="button button--primary" data-action="nova-instituicao"><i class="ph ph-plus"></i> Nova instituição</button>
           </div>
-          <div class="card-panel"><div class="overflow-x-auto"><table id="alunosTable" class="w-full text-left text-sm text-slate-400"><thead class="bg-dark-900/50 text-xs uppercase font-semibold text-slate-500 tracking-wider"><tr><th class="px-6 py-4">Nome</th><th class="px-6 py-4">Identificador</th><th class="px-6 py-4">E-mail</th><th class="px-6 py-4">WhatsApp</th><th class="px-6 py-4">Turma</th><th class="px-6 py-4">Status</th><th class="px-6 py-4 text-right">Ações</th></tr></thead><tbody id="alunosBody" class="divide-y divide-white/5"></tbody></table></div></div>
+          <div class="table-shell"><div class="table-scroll"><table><thead><tr><th>Instituição</th><th>Cidade</th><th>Contato</th><th>Status</th><th>Turmas</th><th>Ações</th></tr></thead><tbody id="instituicoesBody"></tbody></table></div></div>
         </section>
 
-        <section id="screen-turmas" class="screen hidden">
-          <div class="flex justify-between items-center mb-4"><h2 class="text-2xl font-bold text-white">Turmas</h2><button onclick="openModal('new','turma')" class="btn btn-primary btn-admin">Nova Turma</button></div>
-          <div class="card-panel"><div class="overflow-x-auto"><table id="turmasTable" class="w-full text-left text-sm text-slate-400"><thead class="bg-dark-900/50 text-xs uppercase font-semibold text-slate-500"><tr><th class="px-6 py-4">Turma</th><th class="px-6 py-4">Curso</th><th class="px-6 py-4">Instituição</th><th class="px-6 py-4">Ano/Semestre</th><th class="px-6 py-4">Alunos</th><th class="px-6 py-4">Meta</th><th class="px-6 py-4">Arrecadado</th><th class="px-6 py-4">Status</th><th class="px-6 py-4 text-right">Ações</th></tr></thead><tbody id="turmasBody" class="divide-y divide-white/5"></tbody></table></div></div>
+        <section id="screen-turmas" class="screen">
+          <div class="toolbar">
+            <div class="filter-row"><label><span>Status</span><select id="turmaStatusFilter"><option value="">Todos</option><option>PLANEJAMENTO</option><option>ATIVA</option><option>EM_FINALIZACAO</option><option>CONCLUIDA</option><option>CANCELADA</option></select></label></div>
+            <button class="button button--primary" data-action="nova-turma"><i class="ph ph-plus"></i> Nova turma</button>
+          </div>
+          <div class="table-shell"><div class="table-scroll"><table><thead><tr><th>Turma</th><th>Instituição</th><th>Curso</th><th>Formatura</th><th>Alunos</th><th>Documentação</th><th>Pendências</th><th>Status</th><th>Ações</th></tr></thead><tbody id="turmasBody"></tbody></table></div></div>
         </section>
 
-        <section id="screen-eventos" class="screen hidden">
-          <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 mb-5">
-            <div>
-              <h2 class="text-2xl font-bold text-white">Agenda</h2>
-              <p class="text-sm text-slate-500 mt-1">Veja os próximos eventos e crie novos compromissos direto no calendário.</p>
-            </div>
-            <div class="flex gap-2 flex-wrap">
-              <button onclick="openModal('new','evento')" class="btn btn-primary btn-admin">Novo evento completo</button>
-            </div>
+        <section id="screen-alunos" class="screen">
+          <div class="toolbar">
+            <div class="filter-row"><label><span>Busca</span><input id="alunoBusca" type="search" placeholder="Nome, identificador, e-mail"></label></div>
+            <button class="button button--primary" data-action="novo-aluno"><i class="ph ph-plus"></i> Novo aluno</button>
           </div>
+          <div class="table-shell"><div class="table-scroll"><table><thead><tr><th>Aluno</th><th>Turma</th><th>Contato</th><th>Cadastro</th><th>Documentos</th><th>Beca</th><th>Ações</th></tr></thead><tbody id="alunosBody"></tbody></table></div></div>
+        </section>
 
-          <div class="agenda-grid">
-            <article class="agenda-panel agenda-panel--calendar">
-              <div class="agenda-toolbar">
-                <button onclick="mudarMesAgenda(-1)" class="agenda-nav-btn" aria-label="Mês anterior"><i class="ph ph-caret-left"></i></button>
-                <div>
-                  <p class="agenda-label">Calendário</p>
-                  <h3 id="agendaMonthLabel" class="agenda-title">Mês atual</h3>
-                </div>
-                <button onclick="mudarMesAgenda(1)" class="agenda-nav-btn" aria-label="Próximo mês"><i class="ph ph-caret-right"></i></button>
-              </div>
-
-              <div class="agenda-weekdays">
-                <span>Seg</span>
-                <span>Ter</span>
-                <span>Qua</span>
-                <span>Qui</span>
-                <span>Sex</span>
-                <span>Sáb</span>
-                <span>Dom</span>
-              </div>
-
-              <div id="agendaCalendarGrid" class="agenda-calendar"></div>
-            </article>
-
-            <article class="agenda-panel">
-              <div class="agenda-section">
-                <p class="agenda-label">Data selecionada</p>
-                <h3 id="agendaSelectedDateLabel" class="agenda-title">Selecione um dia</h3>
-              </div>
-
-              <div class="agenda-section">
-                <div class="agenda-section__head">
-                  <h4>Eventos do dia</h4>
-                  <button onclick="abrirNovoEventoDataSelecionada()" class="agenda-link-btn">Usar essa data</button>
-                </div>
-                <div id="agendaDayEvents" class="agenda-stack"></div>
-              </div>
-
-              <div class="agenda-section">
-                <div class="agenda-section__head">
-                  <h4>Criar evento rápido</h4>
-                </div>
-                <div class="agenda-quick-form">
-                  <div>
-                    <label class="form-label">Nome do evento</label>
-                    <input id="agendaQuickName" type="text" class="form-input" placeholder="Ex.: Reunião da turma" />
-                  </div>
-                  <div>
-                    <label class="form-label">Local</label>
-                    <input id="agendaQuickLocal" type="text" class="form-input" placeholder="Ex.: Auditório do colégio" />
-                  </div>
-                  <div>
-                    <label class="form-label">Turma</label>
-                    <div class="relative">
-                      <select id="agendaQuickTurma" class="form-input form-select"></select>
-                      <i class="ph ph-caret-down absolute right-4 top-3.5 text-slate-400 pointer-events-none"></i>
-                    </div>
-                  </div>
-                  <button onclick="salvarEventoRapido()" class="btn btn-primary w-full justify-center">Salvar na agenda</button>
-                </div>
-              </div>
-            </article>
-
-            <article class="agenda-panel">
-              <div class="agenda-section">
-                <p class="agenda-label">Próximos passos</p>
-                <h3 class="agenda-title">Eventos chegando</h3>
-              </div>
-              <div id="agendaUpcomingList" class="agenda-stack"></div>
-            </article>
+        <section id="screen-documentos" class="screen">
+          <div class="toolbar">
+            <div class="filter-row">
+              <label><span>Status</span><select id="documentoStatusFilter"><option value="">Todos</option><option>PENDENTE</option><option>EM_ANALISE</option><option>APROVADO</option><option>REPROVADO</option></select></label>
+            </div>
+            <button class="button button--primary" data-action="upload-documento"><i class="ph ph-upload"></i> Enviar documento</button>
+          </div>
+          <div class="grid-2">
+            <article class="panel"><div class="panel__head"><h2 class="panel__title">Fila de documentos</h2></div><div id="documentosList" class="stack"></div></article>
+            <article class="panel"><div class="panel__head"><h2 class="panel__title">Tipos documentais</h2><button class="button" data-action="novo-tipo-documento">Novo tipo</button></div><div id="tiposDocumentosList" class="stack"></div></article>
           </div>
         </section>
 
-        <section id="screen-financeiro" class="screen hidden">
-          <div class="flex justify-between items-center mb-4"><h2 class="text-2xl font-bold text-white">Financeiro</h2><button onclick="openModal('new','lancamento')" class="btn btn-primary btn-admin">Novo Lançamento</button></div>
-          <div class="card-panel"><div class="overflow-x-auto"><table id="financeiroTable" class="w-full text-left text-sm text-slate-400"><thead class="bg-dark-900/50 text-xs uppercase font-semibold text-slate-500"><tr><th class="px-6 py-4">Descrição</th><th class="px-6 py-4">Tipo</th><th class="px-6 py-4">Categoria</th><th class="px-6 py-4">Status</th><th class="px-6 py-4">Valor</th><th class="px-6 py-4">Data</th><th class="px-6 py-4 text-right">Ações</th></tr></thead><tbody id="financeiroBody" class="divide-y divide-white/5"></tbody></table></div></div>
+        <section id="screen-comprovantes" class="screen">
+          <div class="toolbar">
+            <div class="filter-row"><label><span>Status</span><select id="comprovanteStatusFilter"><option value="">Todos</option><option>EM_ANALISE</option><option>APROVADO</option><option>REPROVADO</option></select></label></div>
+            <button class="button button--primary" data-action="upload-comprovante"><i class="ph ph-upload"></i> Enviar comprovante</button>
+          </div>
+          <div id="comprovantesList" class="stack"></div>
         </section>
 
-        <section id="screen-contribuicoes" class="screen hidden">
-          <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 mb-5">
-            <div>
-              <h2 class="text-2xl font-bold text-white">Contribuições para a Meta</h2>
-              <p class="text-sm text-slate-500 mt-1">Acompanhe doações e contribuições registradas para aproximar a turma da meta da formatura.</p>
+        <section id="screen-importacao" class="screen">
+          <article class="panel">
+            <div class="panel__head"><h2 class="panel__title">Importação de alunos</h2></div>
+            <form id="importForm" class="form-columns">
+              <label><span>Turma de destino</span><select id="importTurma" required></select></label>
+              <label><span>Arquivo CSV ou XLSX</span><input id="importFile" type="file" accept=".csv,.xlsx" required></label>
+              <button class="button button--primary" type="submit"><i class="ph ph-eye"></i> Pré-visualizar</button>
+            </form>
+          </article>
+          <article id="importPreviewPanel" class="panel" hidden>
+            <div class="panel__head"><h2 class="panel__title">Pré-visualização</h2></div>
+            <div id="importPreview" class="import-preview"></div>
+            <div class="filter-row">
+              <label><span>Estratégia</span><select id="importStrategy"><option value="IGNORAR_DUPLICADOS">Ignorar duplicados</option><option value="ATUALIZAR_DUPLICADOS">Atualizar registros</option><option value="CANCELAR_IMPORTACAO">Cancelar importação</option></select></label>
+              <button id="confirmImportBtn" class="button button--primary"><i class="ph ph-check"></i> Confirmar importação</button>
             </div>
-            <div class="flex gap-2 flex-wrap">
-              <label class="block min-w-[220px]">
-                <span class="mb-2 block text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Turma</span>
-                <select id="contributionTurmaFilter" class="w-full rounded-2xl border border-white/10 bg-slate-950/70 px-4 py-3 text-white outline-none transition focus:border-emerald-400/70 focus:ring-4 focus:ring-emerald-400/10">
-                  <option value="">Todas as turmas</option>
-                </select>
-              </label>
-              <button onclick="openModal('new','contribuicao')" class="btn btn-primary btn-admin self-end"><i class="ph ph-gift"></i> Nova contribuição</button>
-            </div>
-          </div>
-
-          <div class="simple-cards">
-            <article class="simple-card simple-card--money">
-              <span class="simple-card__label">Total contribuído</span>
-              <strong id="contributionTotal" class="simple-card__value">R$ 0,00</strong>
-              <small id="contributionScopeLabel">Contribuições de todas as turmas</small>
-            </article>
-            <article class="simple-card simple-card--event">
-              <span class="simple-card__label">Quantidade de apoios</span>
-              <strong id="contributionCount" class="simple-card__value">0</strong>
-              <small id="contributionAverage">Ticket médio R$ 0,00</small>
-            </article>
-            <article class="simple-card simple-card--attention">
-              <span class="simple-card__label">Meta restante</span>
-              <strong id="contributionRemaining" class="simple-card__value">R$ 0,00</strong>
-              <small id="contributionProgressLabel">0% da meta atingida</small>
-            </article>
-          </div>
-
-          <div class="simple-grid">
-            <article class="simple-panel simple-panel--wide">
-              <div class="simple-panel__head">
-                <div>
-                  <p class="simple-kicker">Contribuições recentes</p>
-                  <h3 class="simple-panel__title">Entradas registradas na campanha</h3>
-                </div>
-              </div>
-              <div id="contributionRecentList" class="simple-stack"></div>
-            </article>
-
-            <article class="simple-panel">
-              <div class="simple-panel__head">
-                <div>
-                  <p class="simple-kicker">Turmas</p>
-                  <h3 class="simple-panel__title">Progresso por turma</h3>
-                </div>
-              </div>
-              <div id="contributionTurmaList" class="simple-stack"></div>
-            </article>
-          </div>
+          </article>
         </section>
 
-        <section id="screen-relatorios" class="screen hidden">
-          <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 mb-5">
-            <div>
-              <h2 class="text-2xl font-bold text-white">Relatorios Financeiros</h2>
-              <p class="text-sm text-slate-500 mt-1">Escolha os filtros e gere um resumo financeiro quando precisar.</p>
+        <section id="screen-relatorios" class="screen">
+          <article class="panel">
+            <div class="panel__head"><h2 class="panel__title">Relatórios operacionais</h2></div>
+            <div class="filter-row">
+              <label><span>Tipo</span><select id="reportType"><option value="alunos">Alunos por turma</option><option value="cadastro-incompleto">Cadastro incompleto</option><option value="documentos-pendentes">Documentos pendentes</option><option value="documentos-analise">Documentos em análise</option><option value="documentos-reprovados">Documentos reprovados</option><option value="beca">Situação de beca</option><option value="situacao-escolar">Situação escolar</option><option value="comprovantes-pendentes">Comprovantes pendentes</option><option value="resumo-turma">Resumo da turma</option></select></label>
+              <button id="generateReportBtn" class="button button--primary"><i class="ph ph-chart-line"></i> Gerar</button>
+              <button id="exportReportBtn" class="button"><i class="ph ph-download"></i> CSV</button>
             </div>
-            <div class="report-action-group">
-              <button type="button" id="generateReportBtn" onclick="generateReport()" class="btn btn-primary"><i class="ph ph-chart-line-up"></i> Gerar relatório</button>
-              <button type="button" id="exportReportPdfBtn" onclick="exportReportFile('resumo.pdf')" class="btn-outline" disabled><i class="ph ph-file-pdf"></i> PDF</button>
-              <button type="button" id="exportReportSummaryCsvBtn" onclick="exportReportFile('resumo.csv')" class="btn-outline" disabled><i class="ph ph-file-csv"></i> CSV resumo</button>
-              <button type="button" id="exportReportTransactionsCsvBtn" onclick="exportReportFile('lancamentos.csv')" class="btn-outline" disabled><i class="ph ph-files"></i> CSV lancamentos</button>
-            </div>
-          </div>
-
-          <div class="mb-6 rounded-[24px] border border-white/10 bg-white/[0.04] p-4 backdrop-blur-xl">
-            <div class="grid gap-4 lg:grid-cols-[1.2fr_220px_220px]">
-              <div>
-                <p class="text-xs uppercase tracking-[0.22em] text-slate-500 font-semibold">Filtro do relatório</p>
-                <p class="mt-2 text-base font-semibold text-white" id="reportScopeLabel">Visão consolidada de todas as turmas</p>
-                <p class="mt-1 text-sm text-slate-400" id="reportFilterHint">Selecione uma turma e o período para montar o relatório sob demanda.</p>
-              </div>
-
-              <label class="block">
-                <span class="mb-2 block text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Turma</span>
-                <select id="reportTurmaFilter" class="w-full rounded-2xl border border-white/10 bg-slate-950/70 px-4 py-3 text-white outline-none transition focus:border-emerald-400/70 focus:ring-4 focus:ring-emerald-400/10">
-                  <option value="">Todas as turmas</option>
-                </select>
-              </label>
-
-              <label class="block">
-                <span class="mb-2 block text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Período</span>
-                <select id="reportPeriodFilter" class="w-full rounded-2xl border border-white/10 bg-slate-950/70 px-4 py-3 text-white outline-none transition focus:border-emerald-400/70 focus:ring-4 focus:ring-emerald-400/10">
-                  <option value="3">Últimos 3 meses</option>
-                  <option value="6">Últimos 6 meses</option>
-                  <option value="12">Últimos 12 meses</option>
-                </select>
-              </label>
-            </div>
-          </div>
-
-          <div id="reportEmptyState" class="simple-panel">
-            <div class="simple-panel__head">
-              <div>
-                <p class="simple-kicker">Relatório sob demanda</p>
-                <h3 class="simple-panel__title">Nenhum relatório gerado ainda</h3>
-              </div>
-            </div>
-            <p class="text-sm text-slate-400">Use os filtros acima e clique em <strong class="text-white">Gerar relatório</strong> para montar o resumo financeiro e liberar as exportações.</p>
-          </div>
-
-          <div id="reportResultPanel" hidden>
-            <div class="report-kpi-grid">
-              <article class="simple-card simple-card--money">
-                <span class="simple-card__label">Saldo atual</span>
-                <strong id="reportCurrentBalance" class="simple-card__value">R$ 0,00</strong>
-                <small id="reportGeneratedAt">Aguardando geração</small>
-              </article>
-              <article class="simple-card simple-card--event">
-                <span class="simple-card__label">Receitas do período</span>
-                <strong id="reportPeriodRevenue" class="simple-card__value">R$ 0,00</strong>
-                <small id="reportAverageNet">Resultado médio R$ 0,00</small>
-              </article>
-              <article class="simple-card simple-card--attention">
-                <span class="simple-card__label">Despesas do período</span>
-                <strong id="reportPeriodExpenses" class="simple-card__value">R$ 0,00</strong>
-                <small id="reportRunwayMonths">Cobertura Sem base</small>
-              </article>
-              <article class="simple-card">
-                <span class="simple-card__label">Contribuições no período</span>
-                <strong id="reportPeriodContributions" class="simple-card__value">R$ 0,00</strong>
-                <small id="reportContributionShare">Participação 0%</small>
-              </article>
-            </div>
-
-            <div class="simple-panel mt-6">
-              <div class="simple-panel__head">
-                <div>
-                  <p class="simple-kicker">Resumo gerado</p>
-                  <h3 class="simple-panel__title">Visão rápida</h3>
-                </div>
-                <p class="text-sm text-slate-400">Resumo simples para consulta rápida e exportação.</p>
-              </div>
-              <div id="reportSummaryList" class="simple-stack"></div>
-            </div>
-
-            <div class="simple-panel mt-6">
-              <div class="simple-panel__head">
-                <div>
-                  <p class="simple-kicker">Observações</p>
-                  <h3 class="simple-panel__title">Principais insights</h3>
-                </div>
-              </div>
-              <div id="reportInsightsList" class="simple-stack"></div>
-            </div>
-          </div>
+          </article>
+          <div id="reportSummary" class="metric-grid"></div>
+          <div class="table-shell"><div class="table-scroll"><table id="reportTable"><thead></thead><tbody></tbody></table></div></div>
         </section>
 
-        <section id="screen-votacao" class="screen hidden">
-          <div class="flex justify-between items-center mb-6"><div><h2 class="text-2xl font-bold text-white">Votações e Enquetes</h2><p class="text-sm text-slate-500">Decisões democráticas da turma</p></div><button onclick="openModal('new','votacao')" class="btn btn-primary btn-admin"><i class="ph ph-plus-bold"></i> Nova Votação</button></div>
-          <div id="votacoesContainer" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"></div>
+        <section id="screen-permissoes" class="screen">
+          <article class="panel">
+            <div class="panel__head"><h2 class="panel__title">Matriz inicial de permissões</h2></div>
+            <div class="table-shell"><div class="table-scroll"><table><thead><tr><th>Perfil</th><th>Acesso</th><th>Restrições</th></tr></thead><tbody id="permissionsBody"></tbody></table></div></div>
+          </article>
         </section>
       </div>
+      <footer class="content muted">Protótipo conceitual para validação — não representa uma plataforma oficial da Timbé Formaturas.</footer>
     </main>
   </div>
 
-  <div id="toastContainer" class="fixed top-5 right-5 z-[60] flex flex-col gap-2 w-full max-w-xs pointer-events-none"></div>
+  <dialog id="formDialog"><form id="entityForm" class="modal" method="dialog"></form></dialog>
+  <dialog id="analysisDialog"><form id="analysisForm" class="modal" method="dialog"></form></dialog>
 
-  <div id="modalBackdrop" class="fixed inset-0 bg-dark-900/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4 modal-backdrop">
-    <div id="modalPanel" class="bg-dark-800/95 w-full max-w-xl rounded-[28px] shadow-2xl border border-white/8 transform scale-95 opacity-0 modal-panel">
-      <div class="px-6 py-5 border-b border-white/6 flex justify-between items-center bg-dark-800/60">
-        <h3 id="modalTitle" class="text-lg font-bold text-white flex items-center gap-2"><i class="ph ph-pencil-simple text-primary-500"></i> <span>Formulário</span></h3>
-        <button onclick="closeModal()" class="text-slate-500 hover:text-white transition-colors p-1 rounded-md hover:bg-dark-700"><i class="ph ph-x text-lg"></i></button>
-      </div>
-      <div class="p-6 max-h-[80vh] overflow-y-auto custom-scroll">
-        <form id="modalForm" class="space-y-5">
-          <input type="hidden" id="modalItemId" value="">
-          <div class="modal-intro">
-            <div class="modal-intro__icon" id="modalIntroIcon"><i class="ph ph-pencil-simple"></i></div>
-            <div class="modal-intro__copy">
-              <p id="modalEyebrow" class="modal-intro__eyebrow">Cadastro</p>
-              <strong id="modalLead" class="modal-intro__title">Preencha os dados principais</strong>
-              <p id="modalHelp" class="modal-intro__text">Use este formulário para registrar um novo item no sistema.</p>
-            </div>
-          </div>
-
-          <div class="modal-section">
-            <p class="modal-section__title">Tipo de registro</p>
-            <label class="form-label">Categoria</label>
-            <div class="relative">
-              <select id="modalCategoria" onchange="toggleModalFields()" class="form-input form-select">
-                <option value="evento">Evento</option>
-                <option value="aluno">Aluno</option>
-                <option value="turma">Turma</option>
-                <option value="lancamento">Financeiro</option>
-                <option value="contribuicao">Contribuição</option>
-                <option value="votacao">Votação</option>
-              </select>
-              <i class="ph ph-caret-down absolute right-4 top-3.5 text-slate-400 pointer-events-none"></i>
-            </div>
-          </div>
-
-          <div class="modal-section modal-section--compact">
-            <p class="modal-section__title">Dados principais</p>
-            <div>
-              <label class="form-label">Título / Nome</label>
-              <input id="modalNome" type="text" required class="form-input" placeholder="Digite aqui..." />
-            </div>
-            <div id="divIdentificador" class="hidden mt-4">
-              <label class="form-label">Identificador do aluno</label>
-              <input id="modalIdentificador" type="text" class="form-input" placeholder="ex.: silas.tristoni" />
-              <p class="text-xs text-slate-500 mt-2">Esse identificador será usado no login do aluno. Se você deixar em branco, o sistema gera automaticamente.</p>
-            </div>
-            <div id="divSenhaAluno" class="hidden mt-4">
-              <label class="form-label">Senha do aluno</label>
-              <input id="modalSenha" type="password" class="form-input" placeholder="Mínimo 6 caracteres" />
-              <p class="text-xs text-slate-500 mt-2">Se ficar em branco no cadastro, o sistema usa a senha temporária configurada para novos acessos. Na edição, senha vazia mantém a atual.</p>
-            </div>
-            <div class="grid grid-cols-2 gap-4 mt-4" id="divDataValor">
-              <div id="divModalDataField"><label id="modalDataLabel" class="form-label">Data</label><input id="modalData" type="date" class="form-input" /></div>
-              <div id="divModalValorField"><label id="modalValorLabel" class="form-label">Valor (R$)</label><input id="modalValor" type="number" step="0.01" class="form-input" placeholder="0.00" /></div>
-            </div>
-          </div>
-
-          <div class="modal-section modal-section--compact">
-            <p id="modalDetailsTitle" class="modal-section__title">Detalhes adicionais</p>
-            <div>
-              <label id="lblDescricao" class="form-label">Descrição</label>
-              <textarea id="modalDescricao" rows="3" class="form-input" placeholder="Detalhes adicionais..."></textarea>
-            </div>
-            <div id="divTurmaExtras" class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3 hidden">
-              <div><label class="form-label">Instituição</label><input id="modalInstituicao" type="text" class="form-input" placeholder="Ex.: Senac Joinville" /></div>
-              <div><label class="form-label">Ano/Semestre</label><input id="modalAnoSemestre" type="text" class="form-input" placeholder="Ex.: 2026/2" /></div>
-              <div><label class="form-label">Representante</label><input id="modalRepresentante" type="text" class="form-input" placeholder="Nome do representante" /></div>
-              <div><label class="form-label">Status da turma</label><select id="modalStatusTurma" class="form-input form-select"><option value="ATIVA">Ativa</option><option value="PAUSADA">Pausada</option><option value="CONCLUIDA">Concluída</option></select></div>
-            </div>
-            <div id="divAlunoExtras" class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3 hidden">
-              <div><label class="form-label">E-mail</label><input id="modalEmailAluno" type="email" class="form-input" placeholder="aluno@email.com" /></div>
-              <div><label class="form-label">WhatsApp</label><input id="modalWhatsappAluno" type="text" class="form-input" placeholder="(47) 99999-0000" /></div>
-              <div><label class="form-label">Status do aluno</label><select id="modalStatusAluno" class="form-input form-select"><option value="ATIVO">Ativo</option><option value="PENDENTE">Pendente</option><option value="DESISTENTE">Desistente</option></select></div>
-            </div>
-            <div id="divEventoExtras" class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3 hidden">
-              <div><label class="form-label">Horário</label><input id="modalHorarioEvento" type="time" class="form-input" /></div>
-              <div><label class="form-label">Local</label><input id="modalLocalEvento" type="text" class="form-input" placeholder="Ex.: Auditório" /></div>
-              <div><label class="form-label">Tipo</label><select id="modalTipoEvento" class="form-input form-select"><option value="REUNIAO_GERAL">Reunião geral</option><option value="REUNIAO_COMISSAO">Reunião da comissão</option><option value="ENSAIO">Ensaio</option><option value="PAGAMENTO">Pagamento</option><option value="VOTACAO">Votação</option><option value="EVENTO_OFICIAL">Evento oficial</option><option value="PRAZO_IMPORTANTE">Prazo importante</option></select></div>
-              <div><label class="form-label">Status</label><select id="modalStatusEvento" class="form-input form-select"><option value="AGENDADO">Agendado</option><option value="CONCLUIDO">Concluído</option><option value="CANCELADO">Cancelado</option></select></div>
-              <div class="md:col-span-2"><label class="form-label">Responsável</label><input id="modalResponsavelEvento" type="text" class="form-input" placeholder="Pessoa responsável pelo evento" /></div>
-            </div>
-            <div id="divFinanceiroExtras" class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3 hidden">
-              <div><label class="form-label">Tipo</label><select id="modalTipoFinanceiro" class="form-input form-select"><option value="RECEITA">Receita</option><option value="DESPESA">Despesa</option></select></div>
-              <div><label class="form-label">Categoria</label><select id="modalCategoriaFinanceira" class="form-input form-select"><option value="MENSALIDADE">Mensalidade</option><option value="CONTRIBUICAO">Contribuição</option><option value="PATROCINIO">Patrocínio</option><option value="RIFA">Rifa</option><option value="EVENTO">Evento</option><option value="CONTRATO">Contrato</option><option value="DECORACAO">Decoração</option><option value="FOTO_VIDEO">Foto/Vídeo</option><option value="OUTROS">Outros</option></select></div>
-              <div><label class="form-label">Forma de pagamento</label><select id="modalFormaPagamento" class="form-input form-select"><option value="PIX">PIX</option><option value="DINHEIRO">Dinheiro</option><option value="BOLETO">Boleto</option><option value="CARTAO">Cartão</option><option value="TRANSFERENCIA">Transferência</option><option value="OUTROS">Outros</option></select></div>
-              <div><label class="form-label">Status</label><select id="modalStatusFinanceiro" class="form-input form-select"><option value="CONFIRMADO">Confirmado</option><option value="PENDENTE">Pendente</option><option value="CANCELADO">Cancelado</option><option value="ESTORNADO">Estornado</option></select></div>
-              <div><label class="form-label">Vencimento</label><input id="modalDataVencimento" type="date" class="form-input" /></div>
-              <div><label class="form-label">Campanha</label><select id="modalCampanha" class="form-input form-select"><option value="META_GERAL">Meta geral</option><option value="RIFA">Rifa</option><option value="PATROCINIO">Patrocínio</option><option value="EVENTO">Evento</option><option value="OUTROS">Outros</option></select></div>
-            </div>
-            <div id="divVotacaoExtras" class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3 hidden">
-              <div><label class="form-label">Início</label><input id="modalDataInicioVotacao" type="date" class="form-input" /></div>
-              <div><label class="form-label">Status</label><select id="modalStatusVotacao" class="form-input form-select"><option value="RASCUNHO">Rascunho</option><option value="ABERTA">Aberta</option><option value="ENCERRADA">Encerrada</option></select></div>
-              <div><label class="form-label">Tipo</label><select id="modalTipoVotacao" class="form-input form-select"><option value="ESCOLHA_UNICA">Escolha única</option><option value="MULTIPLA_ESCOLHA">Múltipla escolha</option></select></div>
-              <div><label class="form-label">Resultado</label><select id="modalVisibilidadeResultado" class="form-input form-select"><option value="APOS_ENCERRAMENTO">Após encerramento</option><option value="SEMPRE">Sempre visível</option></select></div>
-              <div><label class="form-label">Quórum mínimo</label><input id="modalQuorumMinimo" type="number" min="0" class="form-input" placeholder="Opcional" /></div>
-              <label class="flex items-center gap-3 rounded-2xl border border-white/10 bg-slate-950/45 px-4 py-3 text-sm text-slate-300"><input id="modalVotacaoAnonima" type="checkbox" checked class="h-4 w-4 rounded border-white/20 bg-slate-900 text-emerald-500 focus:ring-emerald-500" /><span>Votação anônima</span></label>
-            </div>
-            <div id="divAlunoSelect" class="mt-3 hidden">
-              <label class="form-label">Vincular a aluno cadastrado</label>
-              <div class="relative">
-                <select id="modalAlunoSelect" class="form-input form-select"><option value="">Sem vínculo com aluno</option></select>
-                <i class="ph ph-caret-down absolute right-4 top-3.5 text-slate-400 pointer-events-none"></i>
-              </div>
-              <p class="text-xs text-slate-500 mt-2">Opcional: use para registrar a contribuição diretamente no nome de um aluno existente.</p>
-            </div>
-            <div id="divApoiadorNome" class="mt-3 hidden">
-              <label class="form-label">Nome do apoiador</label>
-              <input id="modalApoiadorNome" type="text" class="form-input" placeholder="Ex.: Familia Silva" />
-            </div>
-            <label id="divContribuicaoAnonima" class="mt-3 hidden items-center gap-3 rounded-2xl border border-white/10 bg-slate-950/45 px-4 py-3 text-sm text-slate-300">
-              <input id="modalContribuicaoAnonima" type="checkbox" class="h-4 w-4 rounded border-white/20 bg-slate-900 text-emerald-500 focus:ring-emerald-500" />
-              <span>Exibir esta contribuição como anônima</span>
-            </label>
-            <div class="mt-3 relative" id="divTurmaSelect">
-              <select id="modalTurmaSelect" class="form-input form-select"><option value="">Selecione a Turma...</option></select>
-              <i class="ph ph-caret-down absolute right-4 top-3.5 text-slate-400 pointer-events-none"></i>
-            </div>
-            <div id="divPerfil" class="mt-3 hidden">
-              <label class="form-label">Cargo / Perfil</label>
-              <div class="relative">
-                <select id="modalPerfil" class="form-input form-select">
-                  <option value="ALUNO">Aluno Simples</option>
-                  <option value="COMISSAO">Membro da Comissão</option>
-                </select>
-                <i class="ph ph-caret-down absolute right-4 top-3.5 text-slate-400 pointer-events-none"></i>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
-      <div class="px-6 py-4 bg-dark-900/45 border-t border-white/6 flex gap-3">
-        <button type="button" onclick="closeModal()" class="flex-1 btn-outline w-full text-center text-sm font-medium">Cancelar</button>
-        <button id="modalSubmitButton" onclick="salvarFormulario(event)" type="button" class="flex-1 btn-gradient w-full text-center text-sm">Salvar</button>
-      </div>
-    </div>
-  </div>
-
-  <div id="confirmModal" class="fixed inset-0 bg-dark-900/80 backdrop-blur-sm hidden items-center justify-center z-[70] p-4 modal-backdrop">
-    <div class="bg-dark-800 w-full max-w-sm rounded-2xl shadow-2xl border border-dark-700 p-6 text-center transform scale-95 transition-all duration-300">
-      <i data-confirm-icon class="ph-fill ph-warning-circle text-5xl text-red-500 mb-4 inline-block"></i>
-      <h3 data-confirm-title class="text-xl font-bold text-white mb-2">Excluir Registro?</h3>
-      <p data-confirm-message class="text-sm text-slate-400 mb-6">Esta ação não pode ser desfeita. Os dados serão apagados permanentemente.</p>
-      <div class="flex gap-3">
-        <button onclick="fecharConfirmacao()" class="flex-1 px-4 py-2 rounded-xl border border-dark-600 text-slate-300 font-medium hover:bg-dark-700 transition-all">Cancelar</button>
-        <button data-confirm-action onclick="confirmarExclusaoAcao()" class="flex-1 px-4 py-2 rounded-xl bg-red-500 text-white font-bold hover:bg-red-600 transition-all">Sim, Excluir</button>
-      </div>
-    </div>
-  </div>
-
-  <script type="module" src="./js/main.js"></script>
+  <script type="module" src="./js/business.js"></script>
 </body>
 </html>

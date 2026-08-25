@@ -23,6 +23,10 @@ public class Tarefa {
     private Turma turma;
 
     @ManyToOne
+    @JoinColumn(name = "organizacao_id")
+    private Organizacao organizacao;
+
+    @ManyToOne
     @JoinColumn(name = "responsavel_id")
     private Aluno responsavel;
 
@@ -33,4 +37,5 @@ public class Tarefa {
     
     private String status = "a_fazer";
     private LocalDate dataLimite;
+    private Boolean ativo = true;
 }

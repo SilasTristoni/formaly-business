@@ -31,3 +31,11 @@ build/
 
 ### VS Code ###
 .vscode/
+
+.env
+uploads/
+formaly-uploads/
+.formaly-business/
+
+### Demo estática local / GitHub Pages ###
+_site/

@@ -24,6 +24,10 @@ public class Evento {
     @JoinColumn(name = "turma_id", nullable = false)
     private Turma turma;
 
+    @ManyToOne
+    @JoinColumn(name = "organizacao_id")
+    private Organizacao organizacao;
+
     private String nome;
     @Column(columnDefinition = "TEXT")
     private String descricao;
@@ -33,6 +37,7 @@ public class Evento {
     private String tipo = "REUNIAO_GERAL";
     private String responsavel;
     private String status = "AGENDADO";
+    private Boolean ativo = true;
 
     @Transient
     private Long confirmacoesPresenca = 0L;

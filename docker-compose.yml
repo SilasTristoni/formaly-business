@@ -1,0 +1,37 @@
+services:
+  db:
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: formaly_business
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    ports:
+      - "3306:3306"
+    volumes:
+      - formaly_mysql:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    environment:
+      DB_URL: jdbc:mysql://db:3306/formaly_business?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=America/Sao_Paulo
+      DB_USERNAME: root
+      DB_PASSWORD:
+      APP_SECURITY_JWT_SECRET: local-demo-change-me-formaly-business
+      APP_DEMO_SEED_ENABLED: "true"
+      FORMALY_STORAGE_PATH: /data/uploads
+      PORT: 8080
+    volumes:
+      - formaly_uploads:/data/uploads
+
+volumes:
+  formaly_mysql:
+  formaly_uploads:

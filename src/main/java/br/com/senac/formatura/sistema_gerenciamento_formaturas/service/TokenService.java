@@ -16,17 +16,23 @@ import br.com.senac.formatura.sistema_gerenciamento_formaturas.model.Usuario;
 
 @Service
 public class TokenService {
-    @Value("${app.security.jwt-secret:senac_formatura_secret_key_123}")
+    @Value("${app.security.jwt-secret:}")
     private String secret;
+    @Value("${app.security.jwt-issuer:Formaly Business API}")
+    private String issuer;
+    @Value("${app.security.jwt-expiration-hours:2}")
+    private long expirationHours;
 
     public String gerarToken(Usuario usuario) {
         try {
+            validarConfiguracao();
             var algoritmo = Algorithm.HMAC256(secret);
             return JWT.create()
-                    .withIssuer("API Gestao Formaturas")
+                    .withIssuer(issuer)
                     .withSubject(usuario.getUsername())
                     .withClaim("id", usuario.getId())
                     .withClaim("perfil", usuario.getPerfil().name())
+                    .withClaim("organizacaoId", usuario.getOrganizacaoAtual() != null ? usuario.getOrganizacaoAtual().getId() : null)
                     .withExpiresAt(dataExpiracao())
                     .sign(algoritmo);
         } catch (JWTCreationException exception){
@@ -36,9 +42,10 @@ public class TokenService {
 
     public String getSubject(String tokenJWT) {
         try {
+            validarConfiguracao();
             var algoritmo = Algorithm.HMAC256(secret);
             return JWT.require(algoritmo)
-                    .withIssuer("API Gestao Formaturas")
+                    .withIssuer(issuer)
                     .build()
                     .verify(tokenJWT)
                     .getSubject();
@@ -48,6 +55,12 @@ public class TokenService {
     }
 
     private Instant dataExpiracao() {
-        return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
+        return LocalDateTime.now().plusHours(expirationHours).toInstant(ZoneOffset.of("-03:00"));
+    }
+
+    private void validarConfiguracao() {
+        if (secret == null || secret.isBlank()) {
+            throw new IllegalStateException("Segredo JWT nao configurado.");
+        }
     }
 }

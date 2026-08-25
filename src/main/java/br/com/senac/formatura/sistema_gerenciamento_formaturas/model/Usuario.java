@@ -13,6 +13,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -34,9 +35,15 @@ public class Usuario implements UserDetails {
     @Column(unique = true)
     private String email;
     private String senha;
+    private String nome;
+    private Boolean ativo = true;
 
     @Enumerated(EnumType.STRING)
     private Perfil perfil;
+
+    @ManyToOne
+    @JoinColumn(name = "organizacao_atual_id")
+    private Organizacao organizacaoAtual;
 
     @OneToOne
     @JoinColumn(name = "aluno_id")
@@ -63,5 +70,5 @@ public class Usuario implements UserDetails {
     public boolean isCredentialsNonExpired() { return true; }
     
     @Override
-    public boolean isEnabled() { return true; }
+    public boolean isEnabled() { return Boolean.TRUE.equals(ativo); }
 }

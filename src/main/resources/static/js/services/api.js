@@ -6,73 +6,74 @@ const AUTH_URL = `${API_URL}/auth`;
 const VOTACAO_URL = `${API_URL}/votacoes`;
 const CONTRIBUICOES_URL = `${API_URL}/contribuicoes`;
 const RELATORIOS_URL = `${API_URL}/relatorios/financeiro`;
+const BUSINESS_URL = `${API_URL}/business`;
 
 function authHeaders(isJson = true) {
     const token = auth.getToken();
     const headers = {};
-
-    if (!token) throw new Error("Sessão expirada");
-
-    if (isJson) headers["Content-Type"] = "application/json";
-    headers["Authorization"] = `Bearer ${token}`;
-
+    if (!token) throw new Error('Sessao expirada');
+    if (isJson) headers['Content-Type'] = 'application/json';
+    headers.Authorization = `Bearer ${token}`;
     return headers;
 }
 
 function jsonHeaders() {
-    return { "Content-Type": "application/json" };
+    return { 'Content-Type': 'application/json' };
 }
 
 async function parseResponse(response) {
     if (response.status === 401) {
         auth.clearSession({ broadcast: true });
-        throw new Error("Sessão expirada");
+        throw new Error('Sessao expirada');
     }
-    if (response.status === 403) throw new Error("Acesso negado");
+    if (response.status === 403) throw new Error('Acesso negado');
 
+    const contentType = response.headers.get('content-type') || '';
     if (!response.ok) {
+        if (contentType.includes('application/json')) {
+            const data = await response.json();
+            throw new Error(data.message || 'Erro na requisicao');
+        }
         const text = await response.text();
-        throw new Error(text || "Erro na requisição");
+        throw new Error(text || 'Erro na requisicao');
     }
 
-    const contentType = response.headers.get("content-type") || "";
-    return contentType.includes("application/json") ? response.json() : response.text();
+    return contentType.includes('application/json') ? response.json() : response.text();
 }
 
 async function parseFileResponse(response) {
     if (response.status === 401) {
         auth.clearSession({ broadcast: true });
-        throw new Error("Sessao expirada");
+        throw new Error('Sessao expirada');
     }
-    if (response.status === 403) throw new Error("Acesso negado");
-
+    if (response.status === 403) throw new Error('Acesso negado');
     if (!response.ok) {
         const text = await response.text();
-        throw new Error(text || "Erro na exportacao do arquivo");
+        throw new Error(text || 'Erro na exportacao do arquivo');
     }
-
-    const disposition = response.headers.get("content-disposition") || "";
+    const disposition = response.headers.get('content-disposition') || '';
     const filenameMatch = disposition.match(/filename\*?=(?:UTF-8'')?("?)([^";]+)\1/);
-    const filename = filenameMatch ? decodeURIComponent(filenameMatch[2]) : "arquivo-exportado";
-
     return {
         blob: await response.blob(),
-        filename
+        filename: filenameMatch ? decodeURIComponent(filenameMatch[2]) : 'arquivo-exportado'
     };
 }
 
 function buildQueryString(filters = {}) {
     const params = new URLSearchParams();
-    if (filters.turmaId) params.set("turmaId", String(filters.turmaId));
-    if (filters.periodMonths) params.set("periodoMeses", String(filters.periodMonths));
+    Object.entries(filters).forEach(([key, value]) => {
+        if (value !== undefined && value !== null && value !== '') {
+            params.set(key === 'periodMonths' ? 'periodoMeses' : key, String(value));
+        }
+    });
     const queryString = params.toString();
-    return queryString ? `?${queryString}` : "";
+    return queryString ? `?${queryString}` : '';
 }
 
 export const api = {
     async login(login, senha) {
         const response = await fetch(`${AUTH_URL}/login`, {
-            method: "POST",
+            method: 'POST',
             headers: jsonHeaders(),
             body: JSON.stringify({ login, senha })
         });
@@ -81,17 +82,16 @@ export const api = {
 
     async me() {
         const response = await fetch(`${AUTH_URL}/me`, {
-            method: "GET",
+            method: 'GET',
             headers: authHeaders(false)
         });
         return parseResponse(response);
     },
 
     async dashboardResumo(filters = {}) {
-        const queryString = buildQueryString(filters).replace(/^\?/, "");
-        const response = await fetch(`${API_URL}/dashboard/resumo${queryString ? `?${queryString}` : ''}`, {
-            method: "GET",
-            cache: "no-store",
+        const response = await fetch(`${API_URL}/dashboard/resumo${buildQueryString(filters)}`, {
+            method: 'GET',
+            cache: 'no-store',
             headers: authHeaders(false)
         });
         return parseResponse(response);
@@ -99,17 +99,16 @@ export const api = {
 
     async alunoPainel() {
         const response = await fetch(`${API_URL}/aluno/painel`, {
-            method: "GET",
-            cache: "no-store",
+            method: 'GET',
+            cache: 'no-store',
             headers: authHeaders(false)
         });
         return parseResponse(response);
     },
 
     async contribuicoesResumo(filters = {}) {
-        const queryString = buildQueryString({ turmaId: filters.turmaId }).replace(/^\?/, "");
-        const response = await fetch(`${CONTRIBUICOES_URL}/resumo${queryString ? `?${queryString}` : ''}`, {
-            method: "GET",
+        const response = await fetch(`${CONTRIBUICOES_URL}/resumo${buildQueryString({ turmaId: filters.turmaId })}`, {
+            method: 'GET',
             headers: authHeaders(false)
         });
         return parseResponse(response);
@@ -117,7 +116,7 @@ export const api = {
 
     async relatorioFinanceiro(filters = {}) {
         const response = await fetch(`${RELATORIOS_URL}${buildQueryString(filters)}`, {
-            method: "GET",
+            method: 'GET',
             headers: authHeaders(false)
         });
         return parseResponse(response);
@@ -125,7 +124,7 @@ export const api = {
 
     async exportarRelatorioFinanceiro(resourcePath, filters = {}) {
         const response = await fetch(`${RELATORIOS_URL}/export/${resourcePath}${buildQueryString(filters)}`, {
-            method: "GET",
+            method: 'GET',
             headers: authHeaders(false)
         });
         return parseFileResponse(response);
@@ -133,7 +132,7 @@ export const api = {
 
     async registrarContribuicao(payload) {
         const response = await fetch(CONTRIBUICOES_URL, {
-            method: "POST",
+            method: 'POST',
             headers: authHeaders(true),
             body: JSON.stringify(payload)
         });
@@ -142,14 +141,14 @@ export const api = {
 
     async buscar(endpoint) {
         const response = await fetch(`${CADASTRO_URL}/${endpoint}`, {
-            method: "GET",
-            cache: "no-store",
+            method: 'GET',
+            cache: 'no-store',
             headers: authHeaders(false)
         });
         return parseResponse(response);
     },
 
-    async salvar(endpoint, payload, method = "POST") {
+    async salvar(endpoint, payload, method = 'POST') {
         const response = await fetch(`${CADASTRO_URL}${endpoint}`, {
             method,
             headers: authHeaders(true),
@@ -160,7 +159,7 @@ export const api = {
 
     async deletar(endpoint) {
         const response = await fetch(`${CADASTRO_URL}${endpoint}`, {
-            method: "DELETE",
+            method: 'DELETE',
             headers: authHeaders(false)
         });
         return parseResponse(response);
@@ -168,7 +167,7 @@ export const api = {
 
     async cancelarLancamento(id) {
         const response = await fetch(`${CADASTRO_URL}/lancamento/${id}/cancelar`, {
-            method: "PUT",
+            method: 'PUT',
             headers: authHeaders(false)
         });
         return parseResponse(response);
@@ -176,7 +175,7 @@ export const api = {
 
     async estornarLancamento(id) {
         const response = await fetch(`${CADASTRO_URL}/lancamento/${id}/estornar`, {
-            method: "PUT",
+            method: 'PUT',
             headers: authHeaders(false)
         });
         return parseResponse(response);
@@ -184,7 +183,7 @@ export const api = {
 
     async votar(votacaoId, opcaoId) {
         const response = await fetch(`${VOTACAO_URL}/votar`, {
-            method: "POST",
+            method: 'POST',
             headers: authHeaders(true),
             body: JSON.stringify({ votacaoId, opcaoId })
         });
@@ -193,7 +192,7 @@ export const api = {
 
     async confirmarPresenca(eventoId, status) {
         const response = await fetch(`${API_URL}/eventos/confirmar-presenca`, {
-            method: "POST",
+            method: 'POST',
             headers: authHeaders(true),
             body: JSON.stringify({ eventoId, status })
         });
@@ -202,14 +201,56 @@ export const api = {
 
     async importarAlunosCSV(file, turmaId) {
         const formData = new FormData();
-        formData.append("arquivo", file);
-        formData.append("turmaId", turmaId);
-
+        formData.append('arquivo', file);
+        formData.append('turmaId', turmaId);
         const response = await fetch(`${CADASTRO_URL}/alunos/importar`, {
-            method: "POST",
+            method: 'POST',
             headers: authHeaders(false),
             body: formData
         });
         return parseResponse(response);
+    },
+
+    async businessBuscar(endpoint, params = {}) {
+        const response = await fetch(`${BUSINESS_URL}${endpoint}${buildQueryString(params)}`, {
+            method: 'GET',
+            cache: 'no-store',
+            headers: authHeaders(false)
+        });
+        return parseResponse(response);
+    },
+
+    async businessSalvar(endpoint, payload, method = 'POST') {
+        const response = await fetch(`${BUSINESS_URL}${endpoint}`, {
+            method,
+            headers: authHeaders(true),
+            body: JSON.stringify(payload)
+        });
+        return parseResponse(response);
+    },
+
+    async businessPatch(endpoint, params = {}) {
+        const response = await fetch(`${BUSINESS_URL}${endpoint}${buildQueryString(params)}`, {
+            method: 'PATCH',
+            headers: authHeaders(false)
+        });
+        return parseResponse(response);
+    },
+
+    async businessUpload(endpoint, formData) {
+        const response = await fetch(`${BUSINESS_URL}${endpoint}`, {
+            method: 'POST',
+            headers: authHeaders(false),
+            body: formData
+        });
+        return parseResponse(response);
+    },
+
+    async businessDownload(endpoint, params = {}) {
+        const response = await fetch(`${BUSINESS_URL}${endpoint}${buildQueryString(params)}`, {
+            method: 'GET',
+            headers: authHeaders(false)
+        });
+        return parseFileResponse(response);
     }
 };

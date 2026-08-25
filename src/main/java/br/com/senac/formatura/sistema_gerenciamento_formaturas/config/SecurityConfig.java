@@ -41,9 +41,10 @@ public class SecurityConfig {
                 req.requestMatchers("/", "/*.html", "/manifest.json", "/css/**", "/js/**", "/assets/**").permitAll();
                 req.requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll();
                 req.requestMatchers("/error").permitAll();
-                req.requestMatchers(HttpMethod.GET, "/api/dashboard/**").hasAuthority("ROLE_COMISSAO");
-                req.requestMatchers(HttpMethod.GET, "/api/relatorios/**").hasAuthority("ROLE_COMISSAO");
-                req.requestMatchers("/api/cadastro/**").hasAuthority("ROLE_COMISSAO");
+                req.requestMatchers("/api/business/**").hasAnyAuthority("ROLE_ADMIN_ORGANIZACAO", "ROLE_COLABORADOR", "ROLE_COMISSAO", "ROLE_ALUNO");
+                req.requestMatchers(HttpMethod.GET, "/api/dashboard/**").hasAnyAuthority("ROLE_ADMIN_ORGANIZACAO", "ROLE_COLABORADOR", "ROLE_COMISSAO");
+                req.requestMatchers(HttpMethod.GET, "/api/relatorios/**").hasAnyAuthority("ROLE_ADMIN_ORGANIZACAO", "ROLE_COLABORADOR", "ROLE_COMISSAO");
+                req.requestMatchers("/api/cadastro/**").hasAnyAuthority("ROLE_ADMIN_ORGANIZACAO", "ROLE_COLABORADOR", "ROLE_COMISSAO");
                 req.requestMatchers(HttpMethod.GET, "/api/contribuicoes/**").authenticated();
                 req.requestMatchers(HttpMethod.POST, "/api/contribuicoes").authenticated();
                 req.requestMatchers(HttpMethod.GET, "/api/aluno/**").hasAuthority("ROLE_ALUNO");

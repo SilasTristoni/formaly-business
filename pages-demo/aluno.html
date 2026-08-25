@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Formaly Business | Portal do Formando</title>
+  <meta name="theme-color" content="#030303">
+  <link rel="preload" as="image" href="./assets/brand/timbe/student-hero.webp">
+  <link rel="stylesheet" href="./css/business.css">
+  <link rel="stylesheet" href="./css/demo-signature.css">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body class="student-page">
+  <div id="toastContainer" class="toast-stack" aria-live="polite"></div>
+  <main class="student-shell-main">
+    <header class="student-header">
+      <div class="brand-lockup">
+        <img class="brand-logo" src="./assets/brand/timbe/logo-original.png" alt="Timbé Formaturas" width="133" height="67">
+        <div><strong>Formaly Business</strong><span>Portal do Formando</span></div>
+      </div>
+      <a class="button" href="./index.html"><i class="ph ph-buildings"></i> Visão da equipe</a>
+    </header>
+
+    <section class="student-intro" aria-label="Acompanhamento do formando">
+      <p class="eyebrow">Sua formatura em acompanhamento</p>
+      <h1>Documentos em dia para viver <span>seu momento.</span></h1>
+      <p>Acompanhe pendências, assine documentos e veja os próximos marcos da turma em uma experiência simples para celular.</p>
+    </section>
+
+    <section class="student-grid" id="studentContent">
+      <article class="panel">
+        <div class="panel__head"><h1 class="panel__title">Marina Alves</h1><span class="badge badge--info">DEMO</span></div>
+        <div class="stack">
+          <div class="student-card"><strong>Turma</strong><span>Engenharia Civil 2026 | Universidade Exemplo</span></div>
+          <div class="student-card"><strong>Contato</strong><span>marina.alves@demo.formaly.com.br</span></div>
+          <div class="student-card"><strong>Status</strong><span><span class="badge badge--success">CADASTRO COMPLETO</span> <span class="badge badge--warning">1 PENDÊNCIA</span></span></div>
+        </div>
+      </article>
+
+      <article class="panel">
+        <div class="panel__head"><h2 class="panel__title">Resumo</h2></div>
+        <div class="metric-grid">
+          <article class="metric-card"><div><span>Documentos aprovados</span><strong>4</strong><small>checklist</small></div><div class="metric-card__icon"><i class="ph ph-files"></i></div></article>
+          <article class="metric-card"><div><span>Pendências</span><strong id="pendingMetric">1</strong><small>acompanhar</small></div><div class="metric-card__icon"><i class="ph ph-warning-circle"></i></div></article>
+          <article class="metric-card"><div><span>Eventos</span><strong>3</strong><small>agenda</small></div><div class="metric-card__icon"><i class="ph ph-calendar-check"></i></div></article>
+          <article class="metric-card"><div><span>Votações abertas</span><strong>1</strong><small>turma</small></div><div class="metric-card__icon"><i class="ph ph-check-square"></i></div></article>
+        </div>
+      </article>
+
+      <article class="panel">
+        <div class="panel__head"><h2 class="panel__title">Contratos e documentos</h2></div>
+        <div class="stack">
+          <div class="document-item contract-card" id="contractCard">
+            <div class="contract-card__top">
+              <div>
+                <strong>Contrato de prestação de serviços</strong>
+                <span>Versão 1.0 • Emitido em 18/08/2026</span>
+              </div>
+              <span id="contractBadge" class="badge badge--warning">PENDENTE DE ASSINATURA</span>
+            </div>
+            <p>Contrato demonstrativo da turma, com condições gerais, eventos contratados e responsabilidades do formando.</p>
+            <div class="contract-actions">
+              <button class="button" id="previewContractBtn" type="button"><i class="ph ph-eye"></i> Visualizar</button>
+              <button class="button button--primary" id="signContractBtn" type="button"><i class="ph ph-signature"></i> Assinar documento</button>
+              <button class="button" id="certificateBtn" type="button" hidden><i class="ph ph-certificate"></i> Ver comprovante</button>
+            </div>
+            <small id="signatureSummary" class="muted"></small>
+          </div>
+          <div class="document-item"><strong>Documento de identificação <span class="badge badge--success">APROVADO</span></strong><span>Documento validado pela equipe.</span></div>
+          <div class="document-item"><strong>Autorização de uso de imagem <span class="badge badge--success">APROVADO</span></strong><span>Termo recebido e aprovado.</span></div>
+        </div>
+      </article>
+
+      <article class="panel">
+        <div class="panel__head"><h2 class="panel__title">Próximos eventos</h2></div>
+        <div class="stack">
+          <div class="activity-item"><strong>Sessão de fotos</strong><span>12/09/2026 | Estúdio Timbé | presença confirmada</span></div>
+          <div class="activity-item"><strong>Ensaio geral</strong><span>04/11/2026 | Auditório principal | confirmação pendente</span></div>
+          <div class="activity-item"><strong>Baile de formatura</strong><span>19/12/2026 | Centro de Eventos | confirmado</span></div>
+        </div>
+      </article>
+    </section>
+
+    <footer class="muted">© 2026 Formaly Business. Todos os direitos reservados. Ambiente demonstrativo para validação visual; dados fictícios e assinatura sem validade jurídica.</footer>
+  </main>
+
+  <dialog id="contractDialog" class="demo-dialog">
+    <div class="modal signature-modal">
+      <div class="modal__head"><div><p class="eyebrow">Documento demonstrativo</p><h2 class="panel__title">Contrato de prestação de serviços</h2></div><button class="icon-button" type="button" data-close-dialog="contractDialog" aria-label="Fechar">×</button></div>
+      <div class="modal__body contract-preview" id="contractPreview">
+        <h3>CONTRATO DE PRESTAÇÃO DE SERVIÇOS DE FORMATURA</h3>
+        <p><strong>Contratada:</strong> Timbé Eventos e Formaturas — ambiente demonstrativo.</p>
+        <p><strong>Formanda:</strong> Marina Alves, integrante da turma Engenharia Civil 2026.</p>
+        <p>Este conteúdo é fictício e existe apenas para demonstrar a experiência de consulta e assinatura dentro da plataforma. Em uma implantação real, o PDF e suas cláusulas seriam fornecidos pela empresa contratante.</p>
+        <h4>1. Objeto</h4><p>Organização e execução dos serviços previstos no pacote de formatura contratado pela turma.</p>
+        <h4>2. Eventos contemplados</h4><p>Sessão de fotos, cerimônia, jantar e baile, conforme cronograma e condições específicas.</p>
+        <h4>3. Condições financeiras</h4><p>Valores, parcelas e vencimentos serão disponibilizados na área financeira do formando.</p>
+        <h4>4. Aceite</h4><p>Ao concluir a assinatura demonstrativa, o usuário confirma que visualizou este documento e compreendeu o fluxo apresentado.</p>
+      </div>
+      <div class="modal__footer"><button class="button" type="button" data-close-dialog="contractDialog">Fechar</button><button id="startSignatureBtn" class="button button--primary" type="button">Continuar para assinatura</button></div>
+    </div>
+  </dialog>
+
+  <dialog id="signatureDialog" class="demo-dialog">
+    <form id="signatureForm" class="modal signature-modal">
+      <div class="modal__head"><div><p class="eyebrow">Assinatura eletrônica — demonstração</p><h2 class="panel__title">Confirme sua assinatura</h2></div><button class="icon-button" type="button" data-close-dialog="signatureDialog" aria-label="Fechar">×</button></div>
+      <div class="modal__body form-grid">
+        <label class="signature-consent"><input id="readConsent" type="checkbox" required><span>Declaro que li o documento apresentado e desejo prosseguir com a assinatura demonstrativa.</span></label>
+        <label><span>Nome completo</span><input id="signerName" type="text" value="Marina Alves" required></label>
+        <div class="signature-tabs" role="tablist">
+          <button class="button is-active" id="drawTab" type="button">Desenhar</button>
+          <button class="button" id="typeTab" type="button">Digitar</button>
+        </div>
+        <div id="drawSignaturePanel">
+          <span class="field-label">Assine no campo abaixo</span>
+          <canvas id="signatureCanvas" width="760" height="220" aria-label="Campo de assinatura"></canvas>
+          <button class="button button--ghost" id="clearSignatureBtn" type="button">Limpar assinatura</button>
+        </div>
+        <div id="typeSignaturePanel" hidden>
+          <label><span>Assinatura digitada</span><input id="typedSignature" class="typed-signature" type="text" placeholder="Marina Alves"></label>
+        </div>
+        <div class="demo-notice"><i class="ph ph-info"></i><span>Esta assinatura é apenas uma simulação visual para avaliação do fluxo no protótipo.</span></div>
+      </div>
+      <div class="modal__footer"><button class="button" type="button" data-close-dialog="signatureDialog">Cancelar</button><button class="button button--primary" type="submit"><i class="ph ph-check-circle"></i> Assinar documento</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="certificateDialog" class="demo-dialog">
+    <div class="modal signature-modal">
+      <div class="modal__head"><h2 class="panel__title">Comprovante de assinatura</h2><button class="icon-button" type="button" data-close-dialog="certificateDialog">×</button></div>
+      <div class="modal__body" id="certificateContent"></div>
+      <div class="modal__footer"><button class="button button--primary" type="button" data-close-dialog="certificateDialog">Concluir</button></div>
+    </div>
+  </dialog>
+
+  <script type="module" src="./js/demo-student.js"></script>
+</body>
+</html>

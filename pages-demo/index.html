@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Formaly Business | Demo Timbé</title>
+  <meta name="theme-color" content="#030303">
+  <link rel="preload" as="image" href="./assets/brand/timbe/dashboard-cover.webp">
+  <link rel="stylesheet" href="./css/business.css">
+  <link rel="stylesheet" href="./css/demo-signature.css">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body>
+  <div id="toastContainer" class="toast-stack" aria-live="polite"></div>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Menu principal">
+      <div class="sidebar__brand">
+        <div class="sidebar__brand-main">
+          <img class="brand-logo" src="./assets/brand/timbe/logo-original.png" alt="Timbé Formaturas" width="133" height="67">
+          <div class="product-mark"><strong>Formaly Business</strong><span>Protótipo Timbé</span></div>
+        </div>
+        <span class="org-pill"><i class="ph ph-map-pin"></i> Timbé Formaturas — Ambiente Demonstrativo</span>
+      </div>
+      <nav class="nav-list">
+        <button class="nav-button is-active" data-screen="dashboard"><i class="ph ph-squares-four"></i><span>Dashboard</span></button>
+        <button class="nav-button" data-screen="documentos"><i class="ph ph-files"></i><span>Documentos</span></button>
+        <button class="nav-button" data-screen="alunos"><i class="ph ph-student"></i><span>Formandos</span></button>
+      </nav>
+      <div class="sidebar__footer"><div class="user-chip"><strong>Equipe Timbé</strong><span>Administrador demo</span><span>ambiente visual</span></div><a class="button button--ghost" href="./aluno.html"><i class="ph ph-user-circle"></i><span>Portal do formando</span></a></div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar"><div><div class="breadcrumbs">Formaly Business / Demo</div><h1 id="pageTitle" class="page-title">Dashboard operacional</h1></div><a class="button button--primary" href="./aluno.html"><i class="ph ph-signature"></i> Testar assinatura</a></header>
+      <div class="content">
+        <section id="screen-dashboard" class="screen is-active">
+          <article class="dashboard-hero">
+            <div><p class="eyebrow">Operação do dia</p><h2>Boa gestão para celebrar <span>cada conquista.</span></h2><p>Acompanhe turmas, documentos e momentos importantes em um só lugar, com dados fictícios preparados para validação visual com a equipe da Timbé.</p><div class="dashboard-hero__actions"><a class="button button--primary" href="./aluno.html"><i class="ph ph-signature"></i> Simular assinatura do formando</a></div></div>
+            <aside class="dashboard-spotlight"><strong>Próximo marco</strong><span>Sessão de fotos • 12/09/2026</span></aside>
+          </article>
+          <div class="metric-grid">
+            <article class="metric-card"><div><span>Turmas ativas</span><strong>8</strong><small>operação atual</small></div><div class="metric-card__icon"><i class="ph ph-graduation-cap"></i></div></article>
+            <article class="metric-card"><div><span>Formandos</span><strong>426</strong><small>cadastros ativos</small></div><div class="metric-card__icon"><i class="ph ph-student"></i></div></article>
+            <article class="metric-card"><div><span>Documentos pendentes</span><strong id="dashboardPending">37</strong><small>inclui assinaturas</small></div><div class="metric-card__icon"><i class="ph ph-files"></i></div></article>
+            <article class="metric-card"><div><span>Assinaturas concluídas</span><strong id="dashboardSigned">312</strong><small>contratos e termos</small></div><div class="metric-card__icon"><i class="ph ph-signature"></i></div></article>
+          </div>
+          <div class="grid-2">
+            <article class="panel"><div class="panel__head"><h2 class="panel__title">Últimas atividades</h2></div><div class="stack"><div class="activity-item"><strong>Contrato liberado para assinatura</strong><span>Marina Alves • Engenharia Civil 2026</span></div><div class="activity-item"><strong>Documento aprovado</strong><span>Lucas Martins • Administração 2026</span></div><div class="activity-item"><strong>Comprovante recebido</strong><span>Juliana Costa • Direito 2026</span></div></div></article>
+            <article class="panel"><div class="panel__head"><h2 class="panel__title">Próximos eventos</h2></div><div class="stack"><div class="activity-item"><strong>Sessão de fotos</strong><span>12/09/2026 • Engenharia Civil 2026</span></div><div class="activity-item"><strong>Ensaio geral</strong><span>04/11/2026 • Engenharia Civil 2026</span></div><div class="activity-item"><strong>Baile de formatura</strong><span>19/12/2026 • Engenharia Civil 2026</span></div></div></article>
+          </div>
+        </section>
+
+        <section id="screen-documentos" class="screen">
+          <article class="panel">
+            <div class="panel__head"><h2 class="panel__title">Fila de documentos</h2><span class="badge badge--info">DEMO</span></div>
+            <div class="stack">
+              <div class="document-item"><div class="contract-card__top"><div><strong>Contrato de prestação de serviços</strong><span>Marina Alves • Engenharia Civil 2026</span></div><span id="adminContractBadge" class="badge badge--warning">PENDENTE DE ASSINATURA</span></div><div class="contract-actions"><a class="button button--primary" href="./aluno.html">Abrir como formando</a><button id="adminCertificateBtn" class="button" type="button" hidden>Ver comprovante</button></div><small id="adminSignatureSummary" class="muted"></small></div>
+              <div class="document-item"><strong>Autorização de uso de imagem <span class="badge badge--success">ASSINADO</span></strong><span>Lucas Martins • Administração 2026</span></div>
+              <div class="document-item"><strong>Documento de identificação <span class="badge badge--info">EM ANÁLISE</span></strong><span>Juliana Costa • Direito 2026</span></div>
+            </div>
+          </article>
+        </section>
+
+        <section id="screen-alunos" class="screen">
+          <div class="table-shell"><div class="table-scroll"><table><thead><tr><th>Formando</th><th>Turma</th><th>Cadastro</th><th>Documentos</th><th>Contrato</th></tr></thead><tbody><tr><td>Marina Alves</td><td>Engenharia Civil 2026</td><td><span class="badge badge--success">COMPLETO</span></td><td><span class="badge badge--warning">1 PENDÊNCIA</span></td><td id="studentContractCell"><span class="badge badge--warning">PENDENTE</span></td></tr><tr><td>Lucas Martins</td><td>Administração 2026</td><td><span class="badge badge--success">COMPLETO</span></td><td><span class="badge badge--success">OK</span></td><td><span class="badge badge--success">ASSINADO</span></td></tr><tr><td>Juliana Costa</td><td>Direito 2026</td><td><span class="badge badge--success">COMPLETO</span></td><td><span class="badge badge--info">EM ANÁLISE</span></td><td><span class="badge badge--success">ASSINADO</span></td></tr></tbody></table></div></div>
+        </section>
+      </div>
+      <footer class="content muted">© 2026 Formaly Business. Todos os direitos reservados. Ambiente demonstrativo para validação visual; dados fictícios e sem integração com sistemas oficiais.</footer>
+    </main>
+  </div>
+
+  <dialog id="certificateDialog" class="demo-dialog"><div class="modal signature-modal"><div class="modal__head"><h2 class="panel__title">Comprovante de assinatura</h2><button class="icon-button" type="button" id="closeCertificateBtn">×</button></div><div class="modal__body" id="certificateContent"></div><div class="modal__footer"><button class="button button--primary" type="button" id="finishCertificateBtn">Concluir</button></div></div></dialog>
+  <script type="module" src="./js/demo-admin.js"></script>
+</body>
+</html>

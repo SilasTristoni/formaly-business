@@ -1,0 +1,95 @@
+.student-page {
+  min-height: 100vh;
+  background:
+    linear-gradient(180deg, rgba(3, 3, 3, .92) 0, rgba(3, 3, 3, .84) 290px, rgba(255, 253, 248, .92) 290px, rgba(255, 253, 248, .92) 100%),
+    url("../../assets/brand/timbe/student-hero.webp") top center/cover no-repeat,
+    var(--brand-background);
+}
+
+.student-shell-main {
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: var(--space-6) 0;
+  display: grid;
+  gap: var(--space-5);
+}
+
+.student-header {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+  align-items: center;
+  color: #fff;
+}
+
+.student-header .brand-logo {
+  width: 92px;
+}
+
+.student-intro {
+  min-height: 230px;
+  display: grid;
+  align-content: end;
+  gap: var(--space-3);
+  padding: var(--space-6);
+  border: 1px solid rgba(255, 255, 255, .16);
+  border-radius: var(--radius);
+  background: linear-gradient(90deg, rgba(3, 3, 3, .66), rgba(3, 3, 3, .18));
+  color: #fff;
+}
+
+.student-intro h1 {
+  margin: 0;
+  font-size: clamp(2rem, 6vw, 4.6rem);
+  line-height: 1;
+}
+
+.student-intro h1 span {
+  color: var(--brand-accent);
+  font-family: var(--font-display);
+  font-weight: 400;
+}
+
+.student-intro p {
+  max-width: 620px;
+  margin: 0;
+  color: rgba(255, 255, 255, .86);
+}
+
+.student-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, .7fr);
+  gap: var(--space-5);
+}
+
+.student-grid .panel:first-child {
+  border-top: 4px solid var(--brand-accent);
+}
+
+.student-page .app-footer {
+  color: var(--brand-text-soft);
+  text-shadow: none;
+}
+
+@media (max-width: 1120px) {
+  .student-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .student-shell-main {
+    width: min(100% - 22px, 560px);
+    padding: var(--space-4) 0;
+  }
+
+  .student-header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .student-intro {
+    min-height: 220px;
+    padding: var(--space-5);
+  }
+}

@@ -26,17 +26,25 @@ public class AuthController {
 
         Usuario usuarioLogado = (Usuario) authentication.getPrincipal();
         String tokenJWT = tokenService.gerarToken(usuarioLogado);
-        String nome = usuarioLogado.getAluno() != null ? usuarioLogado.getAluno().getNome() : "Admin";
+        String nome = usuarioLogado.getAluno() != null ? usuarioLogado.getAluno().getNome() : firstNonBlank(usuarioLogado.getNome(), "Admin");
         String login = usuarioLogado.getLogin() != null && !usuarioLogado.getLogin().isBlank() ? usuarioLogado.getLogin() : usuarioLogado.getEmail();
 
         return ResponseEntity.ok(new DadosTokenJWT(
             tokenJWT,
             usuarioLogado.getPerfil().name(),
             nome,
-            login
+            login,
+            usuarioLogado.getOrganizacaoAtual() != null ? usuarioLogado.getOrganizacaoAtual().getId() : null
         ));
     }
 
     public record DadosAutenticacao(String login, String senha) {}
-    public record DadosTokenJWT(String token, String perfil, String nome, String login) {}
+    public record DadosTokenJWT(String token, String perfil, String nome, String login, Long organizacaoId) {}
+
+    private String firstNonBlank(String... values) {
+        for (String value : values) {
+            if (value != null && !value.isBlank()) return value;
+        }
+        return "";
+    }
 }
