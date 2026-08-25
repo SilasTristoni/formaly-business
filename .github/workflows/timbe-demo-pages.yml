@@ -3,7 +3,7 @@ name: Timbé Demo Pages
 on:
   push:
     branches:
-      - feat/timbe-pages-assinatura-demo
+      - feat/prototipo-empresarial-timbe-v0
   workflow_dispatch:
 
 permissions:
