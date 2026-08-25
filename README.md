@@ -136,3 +136,13 @@ Nao versione segredos. `APP_SECURITY_JWT_SECRET` deve ser substituido fora do am
 ## Autoria
 
 Base academica preservada e evoluida para prototipo empresarial. Consulte os documentos em `docs/` para auditoria, decisoes e escopo.
+
+## Licenca e propriedade intelectual
+
+Este repositorio e disponibilizado publicamente apenas para demonstracao, avaliacao e revisao tecnica. O acesso publico ao codigo nao concede permissao para utilizar, copiar, modificar, redistribuir, hospedar, sublicenciar, revender ou explorar comercialmente o Formaly Business.
+
+O uso comercial, licenciamento e exploracao do produto sao reservados ao titular dos direitos autorais. Qualquer utilizacao fora da avaliacao do prototipo exige autorizacao previa e expressa do titular.
+
+Marcas, logotipos, fotografias e outros materiais de terceiros permanecem sujeitos aos direitos de seus respectivos proprietarios.
+
+Consulte o arquivo [`LICENSE`](./LICENSE) para os termos completos.
