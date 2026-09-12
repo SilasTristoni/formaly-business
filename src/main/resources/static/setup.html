@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Formaly Business | Configuração inicial</title>
+  <meta name="theme-color" content="#030303">
+  <link rel="stylesheet" href="./css/business.css">
+  <link rel="stylesheet" href="./css/pages/setup.css">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body class="setup-page">
+  <noscript><div class="state state--error">Este sistema precisa de JavaScript habilitado.</div></noscript>
+  <div id="toastContainer" class="toast-stack" aria-live="polite"></div>
+
+  <main class="setup-shell">
+    <section class="setup-intro">
+      <div class="brand-lockup">
+        <img class="brand-logo" src="./assets/brand/timbe/logo-original.png" alt="Timbé Formaturas" width="133" height="67">
+        <div><strong>Formaly Business</strong><span>Primeira configuração</span></div>
+      </div>
+
+      <div>
+        <p class="eyebrow">Ambiente novo</p>
+        <h1>Comece com uma operação <span class="display-accent">limpa.</span></h1>
+        <p>Cadastre somente a empresa e o primeiro administrador. Depois disso, instituições, turmas, alunos, documentos e demais dados serão criados por você dentro do sistema.</p>
+      </div>
+
+      <div class="setup-steps">
+        <div class="setup-step"><i class="ph ph-buildings"></i><div><strong>1. Empresa</strong><br><span class="muted">Cria a organização principal do ambiente.</span></div></div>
+        <div class="setup-step"><i class="ph ph-user-gear"></i><div><strong>2. Administrador</strong><br><span class="muted">Cria o primeiro acesso com permissão total.</span></div></div>
+        <div class="setup-step"><i class="ph ph-rocket-launch"></i><div><strong>3. Operação</strong><br><span class="muted">O restante é cadastrado manualmente pelo painel.</span></div></div>
+      </div>
+    </section>
+
+    <section class="setup-card" aria-label="Configuração inicial">
+      <div class="setup-card__head">
+        <p class="eyebrow">Primeira execução</p>
+        <h2>Configurar ambiente</h2>
+        <p class="muted">Este formulário só pode ser usado enquanto o banco ainda não possui organização ou usuários.</p>
+      </div>
+
+      <form id="setupForm" class="form-grid">
+        <label>
+          <span>Nome da empresa</span>
+          <input id="organizationName" type="text" required placeholder="Timbé Formaturas">
+        </label>
+        <label>
+          <span>Nome fantasia <small class="muted">(opcional)</small></span>
+          <input id="tradeName" type="text" placeholder="Timbé">
+        </label>
+        <label>
+          <span>Nome do administrador</span>
+          <input id="adminName" type="text" required placeholder="Seu nome">
+        </label>
+        <label>
+          <span>E-mail do administrador</span>
+          <input id="adminEmail" type="email" autocomplete="username" required placeholder="admin@empresa.com.br">
+        </label>
+        <label>
+          <span>Senha inicial</span>
+          <input id="adminPassword" type="password" autocomplete="new-password" minlength="8" required placeholder="Mínimo de 8 caracteres">
+        </label>
+        <label>
+          <span>Confirmar senha</span>
+          <input id="adminPasswordConfirm" type="password" autocomplete="new-password" minlength="8" required placeholder="Repita a senha">
+        </label>
+
+        <div class="setup-actions">
+          <button id="setupButton" class="button button--primary" type="submit"><i class="ph ph-check-circle"></i> Criar ambiente</button>
+          <span id="setupStatus" class="setup-status">Verificando banco...</span>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <script type="module" src="./js/setup.js"></script>
+</body>
+</html>
