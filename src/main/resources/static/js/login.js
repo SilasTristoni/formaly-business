@@ -44,6 +44,34 @@ function setCapsWarning(event) {
     capsWarning.hidden = !event.getModifierState('CapsLock');
 }
 
+async function redirectIfSetupIsRequired() {
+    try {
+        const response = await fetch('./api/setup/status', { headers: { Accept: 'application/json' } });
+        if (!response.ok) return false;
+        const status = await response.json();
+        if (status.required) {
+            window.location.replace('./setup.html');
+            return true;
+        }
+    } catch (error) {
+        console.warn('Nao foi possivel verificar a primeira configuracao.', error);
+    }
+    return false;
+}
+
+function applySetupResult() {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('setup') !== 'done') return;
+
+    const login = params.get('login');
+    if (loginInput && login) {
+        loginInput.value = login;
+        updateLoginHelper();
+    }
+    showToast('Configuração inicial concluída. Entre com o administrador criado.');
+    window.history.replaceState({}, document.title, './login.html');
+}
+
 async function redirectIfSessionIsValid() {
     const token = auth.getToken();
     if (!token) return;
@@ -107,5 +135,12 @@ loginForm?.addEventListener('submit', async (event) => {
     }
 });
 
-updateLoginHelper();
-redirectIfSessionIsValid().catch(console.error);
+async function bootstrapLogin() {
+    const setupRedirected = await redirectIfSetupIsRequired();
+    if (setupRedirected) return;
+    applySetupResult();
+    updateLoginHelper();
+    await redirectIfSessionIsValid();
+}
+
+bootstrapLogin().catch(console.error);
