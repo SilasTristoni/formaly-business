@@ -6,12 +6,13 @@ Contexto da demonstracao: prototipo preparado para validacao com a Timbe Formatu
 
 ## Status
 
-Prototipo conceitual funcional. Os dados de demonstracao sao ficticios e podem ser recriados pelo seed local.
+Prototipo conceitual funcional. Os dados de demonstracao sao ficticios e podem ser recriados pelo seed local. O sistema tambem possui fluxo de primeira execucao para iniciar um ambiente sem dados demonstrativos.
 
 ## Funcionalidades
 
 - Login com JWT e BCrypt.
 - Perfis `ADMIN_ORGANIZACAO`, `COLABORADOR`, `COMISSAO` e `ALUNO`.
+- Primeira execucao com criacao da organizacao e do administrador inicial.
 - Dashboard operacional calculado a partir do banco.
 - Gestao de instituicoes, turmas e alunos.
 - Responsavel legal opcional no cadastro do aluno.
@@ -74,6 +75,42 @@ Sem MySQL, para smoke test ou demonstracao rapida:
 
 Acesse `http://localhost:8080/login.html`.
 
+## Primeira execucao com banco vazio
+
+Para testar o produto como um ambiente novo, sem instituicoes, turmas, alunos ou usuarios demonstrativos, use no Windows:
+
+```powershell
+.\run-fresh-local.cmd
+```
+
+O script remove o banco H2 local usado pela demo, desativa `APP_DEMO_SEED_ENABLED` apenas para essa execucao e inicia a aplicacao com o perfil `demo-h2`.
+
+Depois acesse:
+
+```text
+http://localhost:8080/login.html
+```
+
+Quando nao existir organizacao nem usuario, a tela de login redireciona automaticamente para `setup.html`.
+
+Na configuracao inicial informe:
+
+1. nome da empresa;
+2. nome fantasia, se desejar;
+3. nome do primeiro administrador;
+4. email do administrador;
+5. senha inicial com pelo menos 8 caracteres.
+
+A primeira configuracao cria somente:
+
+- uma `Organizacao`;
+- um `Usuario` com perfil `ROLE_ADMIN_ORGANIZACAO`;
+- o vinculo `UsuarioOrganizacao` correspondente.
+
+Depois da configuracao, o usuario volta para o login e deve cadastrar o restante dos dados pelo proprio sistema. O endpoint de inicializacao retorna conflito se o banco ja possuir organizacao ou usuario, evitando uma segunda configuracao publica.
+
+Para voltar ao ambiente demonstrativo preenchido, execute novamente o perfil `demo-h2` com `APP_DEMO_SEED_ENABLED=true` e recrie o banco H2 de demonstracao.
+
 ## Docker
 
 ```powershell
@@ -83,6 +120,8 @@ docker compose up --build
 Acesse `http://localhost:8080/login.html`.
 
 ## Credenciais locais de demonstracao
+
+Estas contas existem somente quando o seed demonstrativo esta habilitado:
 
 - Admin: `admin.demo@formaly.local` / `DemoAdmin2026!`
 - Colaborador: `colaborador.demo@formaly.local` / `DemoColaborador2026!`
@@ -97,6 +136,8 @@ Use apenas em ambiente local ou demo. Em qualquer ambiente compartilhado, substi
 .\mvnw.cmd test
 .\mvnw.cmd package
 ```
+
+Existe teste de integracao para a primeira execucao cobrindo criacao da organizacao, administrador, vinculo, login posterior e bloqueio de uma segunda inicializacao.
 
 Smoke visual responsivo com Playwright, com a aplicacao ja iniciada:
 
@@ -113,7 +154,7 @@ O seed roda quando `APP_DEMO_SEED_ENABLED=true`. Para recriar a demonstracao loc
 ## Estrutura
 
 - `src/main/java/.../model`: entidades JPA.
-- `src/main/java/.../controller`: APIs.
+- `src/main/java/.../controller`: APIs, incluindo o assistente de primeira execucao.
 - `src/main/java/.../service`: seguranca de dominio, storage, documentos e importacao.
 - `src/main/resources/static`: frontend estatico.
 - `src/main/resources/static/assets/brand/timbe`: ativos locais da demonstracao visual.
@@ -131,7 +172,7 @@ O seed roda quando `APP_DEMO_SEED_ENABLED=true`. Para recriar a demonstracao loc
 
 ## Seguranca
 
-Nao versione segredos. `APP_SECURITY_JWT_SECRET` deve ser substituido fora do ambiente local. Uploads possuem validacao de extensao, tamanho, nome armazenado imprevisivel e protecao contra path traversal.
+Nao versione segredos. `APP_SECURITY_JWT_SECRET` deve ser substituido fora do ambiente local. Uploads possuem validacao de extensao, tamanho, nome armazenado imprevisivel e protecao contra path traversal. O endpoint de primeira configuracao so aceita a inicializacao quando nao existe nenhuma organizacao nem usuario no banco.
 
 ## Autoria
 
