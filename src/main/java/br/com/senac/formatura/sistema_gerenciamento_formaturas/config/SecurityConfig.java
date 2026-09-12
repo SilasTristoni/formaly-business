@@ -39,6 +39,7 @@ public class SecurityConfig {
             .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(req -> {
                 req.requestMatchers("/", "/*.html", "/manifest.json", "/css/**", "/js/**", "/assets/**").permitAll();
+                req.requestMatchers("/api/setup/**").permitAll();
                 req.requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll();
                 req.requestMatchers("/error").permitAll();
                 req.requestMatchers("/api/business/**").hasAnyAuthority("ROLE_ADMIN_ORGANIZACAO", "ROLE_COLABORADOR", "ROLE_COMISSAO", "ROLE_ALUNO");
